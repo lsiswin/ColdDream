@@ -1,0 +1,6 @@
+@ColdDream.Api_HostAddress = http://localhost:5116
+
+GET {{ColdDream.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
