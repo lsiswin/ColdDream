@@ -45,7 +45,7 @@
         
         <!-- Small Cards -->
         <view class="small-cards">
-          <view class="small-card coupon">
+          <view class="small-card coupon" @click="goToCoupons">
             <text class="card-label">旅行券</text>
             <text class="card-sub">享超值优惠</text>
             <text class="card-icon">🎫</text>
@@ -73,20 +73,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+
+import { storeToRefs } from 'pinia';
 
 const statusBarHeight = ref(20);
 const authStore = useAuthStore();
-const user = authStore.user;
+const { user } = storeToRefs(authStore);
+const hasLogin = computed(() => !!user.value);
 
 const menuItems = [
-  { text: '我的订单', icon: '📄', path: '/pages/bookings/my' }, // Assuming this path exists or will exist
-  { text: '优惠券', icon: '🎟️', path: '' },
-  { text: '收藏夹', icon: '❤️', path: '' },
-  { text: '我的攻略', icon: '📖', path: '' },
-  { text: '系统设置', icon: '⚙️', path: '' },
-  { text: '联系客服', icon: '🎧', path: '' }
+  { text: '我的订单', icon: '📄', path: '/pages/bookings/my' },
+  { text: '我的定制', icon: '✈️', path: '/pages/custom-tour/list' },
+  { text: '优惠券', icon: '🎟️', path: '/pages/coupon/index' },
+  { text: '收藏夹', icon: '❤️', path: '/pages/inspiration/favorites' },
+  { text: '我的攻略', icon: '📖', path: '/pages/guide/my' },
+  { text: '系统设置', icon: '⚙️', path: '/pages/settings/index' },
+  { text: '联系客服', icon: '🎧', path: '/pages/service/contact' }
 ];
 
 onMounted(() => {
@@ -100,6 +104,18 @@ const goToLogin = () => {
 
 const goToMall = () => {
   uni.navigateTo({ url: '/pages/products/index' });
+};
+
+const goToCoupons = () => {
+  uni.navigateTo({ url: '/pages/coupon/index' });
+};
+
+const goToUserInfo = () => {
+  uni.navigateTo({ url: '/pages/user/info' });
+};
+
+const goToSettings = () => {
+  uni.navigateTo({ url: '/pages/settings/index' });
 };
 
 const handleMenuClick = (item: any) => {

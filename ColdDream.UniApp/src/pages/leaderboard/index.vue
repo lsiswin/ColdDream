@@ -15,7 +15,10 @@
         <image :src="route.imageUrl || '/static/placeholder.png'" class="route-image" mode="aspectFill" />
         <view class="route-info">
           <text class="route-title">{{ route.title }}</text>
-          <text class="route-price">¥{{ route.price }}</text>
+          <view class="meta">
+            <text class="route-price">¥{{ route.price }}</text>
+            <text class="route-sales">已售 {{ route.sales || 0 }}</text>
+          </view>
         </view>
       </view>
     </view>
@@ -24,14 +27,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { getTopRoutes } from '@/api/leaderboard';
-import type { TourRoute } from '@/api/routes';
+import { getTopRoutes, type TourRoute } from '@/api/routes';
 
 const routes = ref<TourRoute[]>([]);
 
 const loadData = async () => {
   try {
-    routes.value = await getTopRoutes();
+    routes.value = await getTopRoutes(20);
   } catch (error) {
     console.error(error);
   }
@@ -151,10 +153,21 @@ onMounted(() => {
       line-height: 1.4;
     }
     
-    .route-price {
-      color: #ff385c;
-      font-size: 30rpx;
-      font-weight: 700;
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .route-price {
+        color: #ff385c;
+        font-size: 30rpx;
+        font-weight: 700;
+      }
+      
+      .route-sales {
+        font-size: 24rpx;
+        color: #999;
+      }
     }
   }
 }

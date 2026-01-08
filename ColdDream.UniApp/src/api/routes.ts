@@ -8,6 +8,9 @@ export interface TourRoute {
     imageUrl: string;
     isPrivate: boolean;
     tags: string;
+    sales?: number;
+    routeMapUrl?: string;
+    itinerary?: string;
 }
 
 export const getRoutes = () => {
@@ -21,5 +24,12 @@ export const getRouteDetails = (id: string) => {
     return request<TourRoute>({
         url: `/tourroutes/${id}`,
         method: 'GET',
+    });
+};
+
+export const getTopRoutes = (count: number = 5) => {
+    return request<TourRoute[]>({
+        url: `/tourroutes/top?count=${count}`,
+        method: 'GET'
     });
 };

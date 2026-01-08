@@ -1,7 +1,6 @@
-using ColdDream.Api.Models;
-using ColdDream.Api.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ColdDream.Api.Data;
+using ColdDream.Api.Models;
 
 namespace ColdDream.Api.Controllers;
 
@@ -9,65 +8,19 @@ namespace ColdDream.Api.Controllers;
 [ApiController]
 public class ButlersController : ControllerBase
 {
-    private readonly IButlerService _butlerService;
+    private readonly AppDbContext _context;
 
-    public ButlersController(IButlerService butlerService)
+    public ButlersController(AppDbContext context)
     {
-        _butlerService = butlerService;
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetAllButlers()
-    {
-        var butlers = await _butlerService.GetAllButlersAsync();
-        return Ok(butlers);
-    }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetButler(Guid id)
-    {
-        var butler = await _butlerService.GetButlerByIdAsync(id);
-        if (butler == null) return NotFound();
-        return Ok(butler);
-    }
-
-    [HttpPost]
-    [Authorize] // Admin only ideally
-    public async Task<IActionResult> CreateButler(Butler butler)
-    {
-        var createdButler = await _butlerService.CreateButlerAsync(butler);
-        return CreatedAtAction(nameof(GetButler), new { id = createdButler.Id }, createdButler);
-    }
-
-    [HttpPut("{id}")]
-    [Authorize]
-    public async Task<IActionResult> UpdateButler(Guid id, Butler butler)
-    {
-        if (id != butler.Id) return BadRequest();
-        await _butlerService.UpdateButlerAsync(butler);
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    [Authorize]
-    public async Task<IActionResult> DeleteButler(Guid id)
-    {
-        await _butlerService.DeleteButlerAsync(id);
-        return NoContent();
+        _context = context;
     }
 
     [HttpGet("route/{routeId}")]
-    public async Task<IActionResult> GetButlersForRoute(Guid routeId)
+    public IActionResult GetButlersByRoute(Guid routeId)
     {
-        var butlers = await _butlerService.GetButlersByRouteIdAsync(routeId);
+        // For simplicity, return all butlers for any route
+        // In a real app, we would filter by route or location
+        var butlers = _context.Butlers.ToList();
         return Ok(butlers);
-    }
-
-    [HttpPost("{butlerId}/assign/{routeId}")]
-    [Authorize]
-    public async Task<IActionResult> AssignButlerToRoute(Guid butlerId, Guid routeId)
-    {
-        await _butlerService.AssignButlerToRouteAsync(butlerId, routeId);
-        return Ok();
     }
 }

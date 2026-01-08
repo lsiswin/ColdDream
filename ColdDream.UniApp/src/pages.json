@@ -25,9 +25,21 @@
 			}
 		},
 		{
+			"path": "pages/auth/profile",
+			"style": {
+				"navigationBarTitleText": "完善信息"
+			}
+		},
+		{
 			"path": "pages/booking/create",
 			"style": {
 				"navigationBarTitleText": "预约"
+			}
+		},
+		{
+			"path": "pages/bookings/my",
+			"style": {
+				"navigationBarTitleText": "我的订单"
 			}
 		},
 		{
@@ -46,6 +58,102 @@
 			"path": "pages/user/index",
 			"style": {
 				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/custom-tour/create",
+			"style": {
+				"navigationBarTitleText": "创建自定义路线"
+			}
+		},
+		{
+			"path": "pages/guide/index",
+			"style": {
+				"navigationBarTitleText": "攻略指南"
+			}
+		},
+		{
+			"path": "pages/inspiration/index",
+			"style": {
+				"navigationBarTitleText": "发现灵感"
+			}
+		},
+		{
+			"path": "pages/booking/detail",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+		},
+		{
+			"path": "pages/custom-tour/list",
+			"style": {
+				"navigationBarTitleText": "路线列表"
+			}
+		},
+		{
+			"path": "pages/inspiration/favorites",
+			"style": {
+				"navigationBarTitleText": "收藏灵感"
+			}
+		},
+		{
+			"path": "pages/guide/my",
+			"style": {
+				"navigationBarTitleText": "我的攻略"
+			}
+		},
+		{
+			"path": "pages/guide/create",
+			"style": {
+				"navigationBarTitleText": "创建攻略"
+			}
+		},
+		{
+			"path": "pages/guide/detail",
+			"style": {
+				"navigationBarTitleText": "攻略详情"
+			}
+		},
+		{
+			"path": "pages/coupon/index",
+			"style": {
+				"navigationBarTitleText": "优惠券"
+			}
+		},
+		{
+			"path": "pages/settings/index",
+			"style": {
+				"navigationBarTitleText": "系统设置"
+			}
+		},
+		{
+			"path": "pages/settings/account",
+			"style": {
+				"navigationBarTitleText": "账号与安全"
+			}
+		},
+		{
+			"path": "pages/settings/notifications",
+			"style": {
+				"navigationBarTitleText": "消息通知"
+			}
+		},
+		{
+			"path": "pages/settings/general",
+			"style": {
+				"navigationBarTitleText": "通用设置"
+			}
+		},
+		{
+			"path": "pages/settings/about",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		},
+		{
+			"path": "pages/service/contact",
+			"style": {
+				"navigationBarTitleText": "在线客服"
 			}
 		}
 	],

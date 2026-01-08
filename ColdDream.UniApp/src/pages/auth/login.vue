@@ -29,51 +29,98 @@
         <text class="text">和</text>
         <text class="link">《隐私政策》</text>
       </view>
+      
+      <!-- Test Only -->
+      <button class="btn-guest" @click="handleGuestLogin">我是测试员 (跳过微信登录)</button>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
+import { request } from '@/utils/request';
 
 const authStore = useAuthStore();
 
 const handleGetPhoneNumber = (e: any) => {
-  if (e.detail.errMsg === "getPhoneNumber:ok") {
-    // User allowed getting phone number
-    const { code, encryptedData, iv } = e.detail;
+  if (e.detail.errMsg === "getPhoneNumber:ok" || e.detail.errMsg === "getPhoneNumber:ok") {
+    const phoneCode = e.detail.code;
     
     uni.showLoading({ title: '登录中...' });
     
-    // In a real app, send 'code' to backend to exchange for session_key,
-    // then decrypt 'encryptedData' with 'iv' to get phone number.
-    // Here we simulate a successful login for demonstration.
-    
-    console.log('WeChat Code:', code);
-    console.log('Encrypted Data:', encryptedData);
-    console.log('IV:', iv);
-    
-    setTimeout(() => {
-      // Mock login success
-      authStore.setToken('mock-wechat-token');
-      authStore.setUser({
-        username: '微信用户',
-        nickName: '微信用户',
-        avatarUrl: '', // Can be fetched via getUserProfile if needed
-        points: 100
-      });
-      
-      uni.hideLoading();
-      uni.showToast({ title: '登录成功' });
-      
-      setTimeout(() => {
-        uni.navigateBack();
-      }, 1500);
-    }, 1000);
+    uni.login({
+      provider: 'weixin',
+      success: async (loginRes) => {
+        if (loginRes.code) {
+          try {
+            const res = await request<any>({
+              url: '/auth/wechat-login',
+              method: 'POST',
+              data: {
+                loginCode: loginRes.code,
+                phoneCode: phoneCode
+              }
+            });
+            
+            authStore.setToken(res.token);
+            
+            if (res.isNewUser) {
+              uni.hideLoading();
+              uni.navigateTo({ url: '/pages/auth/profile' });
+            } else {
+              authStore.setUser({
+                username: res.username,
+                email: res.email
+              });
+              uni.hideLoading();
+              uni.showToast({ title: '登录成功' });
+              setTimeout(() => {
+                uni.navigateBack();
+              }, 1500);
+            }
+          } catch (error) {
+            console.error(error);
+            uni.hideLoading();
+            uni.showToast({ title: '登录失败', icon: 'none' });
+          }
+        }
+      },
+      fail: () => {
+        uni.hideLoading();
+        uni.showToast({ title: '获取登录凭证失败', icon: 'none' });
+      }
+    });
     
   } else {
-    // User denied
-    uni.showToast({ title: '您取消了授权', icon: 'none' });
+    console.error('getPhoneNumber failed:', e.detail);
+    uni.showToast({ title: `授权失败: ${e.detail.errMsg}`, icon: 'none' });
+  }
+};
+
+const handleGuestLogin = async () => {
+  uni.showLoading({ title: '登录中...' });
+  try {
+    const res = await request<any>({
+      url: '/auth/guest-login',
+      method: 'POST'
+    });
+    
+    authStore.setToken(res.token);
+    authStore.setUser({
+      username: res.username,
+      email: res.email,
+      nickName: '游客测试员'
+    });
+    
+    uni.hideLoading();
+    uni.showToast({ title: '登录成功' });
+    setTimeout(() => {
+      uni.navigateBack();
+    }, 1500);
+  } catch (error) {
+    console.error(error);
+    uni.hideLoading();
+    uni.showToast({ title: '登录失败', icon: 'none' });
   }
 };
 </script>
@@ -157,6 +204,19 @@ const handleGetPhoneNumber = (e: any) => {
     
     .link {
       color: #007aff;
+    }
+  }
+  
+  .btn-guest {
+    margin-top: 40rpx;
+    background: #f8f9fa;
+    color: #666;
+    font-size: 28rpx;
+    border: 1px solid #eee;
+    border-radius: 45rpx;
+    
+    &:active {
+      background: #eee;
     }
   }
 }

@@ -76,6 +76,13 @@ builder.Services.AddScoped<ILeaderboardService, LeaderboardService>();
 
 // Add ProductService
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IWeChatService, WeChatService>();
+builder.Services.AddScoped<ICustomTourService, CustomTourService>();
+builder.Services.AddScoped<IGuideService, GuideService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<IBannerService, BannerService>();
+builder.Services.AddScoped<IInspirationService, InspirationService>();
+builder.Services.AddHttpClient();
 
 // Configure JWT Authentication
 builder
@@ -113,9 +120,31 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowAll");
 
+var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+if (!Directory.Exists(uploadsPath))
+{
+    Directory.CreateDirectory(uploadsPath);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+    RequestPath = ""
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
+
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
+    DbInitializer.Initialize(context);
+}
 
 app.Run();

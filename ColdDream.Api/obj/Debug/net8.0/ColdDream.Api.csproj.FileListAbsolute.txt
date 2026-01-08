@@ -155,4 +155,6 @@ D:\Cshrap\ColdDream\ColdDream.Api\bin\Debug\net8.0\StackExchange.Redis.dll
 D:\Cshrap\ColdDream\ColdDream.Api\bin\Debug\net8.0\System.IO.Hashing.dll
 D:\Cshrap\ColdDream\ColdDream.Api\bin\Debug\net8.0\package-lock.json
 D:\Cshrap\ColdDream\ColdDream.Api\bin\Debug\net8.0\package.json
+D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net8.0\ColdDream.Api.sourcelink.json
 D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+D:\Cshrap\ColdDream\ColdDream.Api\bin\Debug\net8.0\ColdDream.Api.staticwebassets.runtime.json

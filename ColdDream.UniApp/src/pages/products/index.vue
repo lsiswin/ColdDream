@@ -28,16 +28,29 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { onShow } from '@dcloudio/uni-app';
 import { getProducts, buyProduct, type Product } from '@/api/products';
 import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 
 const products = ref<Product[]>([]);
 const authStore = useAuthStore();
-const user = authStore.user;
+const { user } = storeToRefs(authStore);
+
+import { getUserProfile } from '@/api/auth';
 
 const loadData = async () => {
   try {
-    products.value = await getProducts();
+    const [productsRes, userRes] = await Promise.all([
+      getProducts(),
+      authStore.token ? getUserProfile() : Promise.resolve(null)
+    ]);
+    
+    products.value = productsRes;
+    
+    if (userRes) {
+      authStore.setUser({ ...authStore.user, ...userRes });
+    }
   } catch (error) {
     console.error(error);
   }
@@ -69,6 +82,10 @@ const handleBuy = async (product: Product) => {
 };
 
 onMounted(() => {
+  loadData();
+});
+
+onShow(() => {
   loadData();
 });
 </script>

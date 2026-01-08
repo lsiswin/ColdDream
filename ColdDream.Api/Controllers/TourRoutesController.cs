@@ -25,6 +25,13 @@ public class TourRoutesController : ControllerBase
         return Ok(routes);
     }
 
+    [HttpGet("top")]
+    public async Task<IActionResult> GetTopRoutes([FromQuery] int count = 10)
+    {
+        var routes = await _tourRouteService.GetTopSellingRoutesAsync(count);
+        return Ok(routes);
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetRoute(Guid id)
     {

@@ -1,6 +1,16 @@
 [
   {
     "ContainingType": "ColdDream.Api.Controllers.AuthController",
+    "Method": "GuestLogin",
+    "RelativePath": "api/Auth/guest-login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -10,6 +20,32 @@
       {
         "Name": "model",
         "Type": "ColdDream.Api.DTOs.LoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.AuthController",
+    "Method": "GetProfile",
+    "RelativePath": "api/Auth/me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.AuthController",
+    "Method": "UpdateProfile",
+    "RelativePath": "api/Auth/profile",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "ColdDream.Api.DTOs.UpdateProfileDto",
         "IsRequired": true
       }
     ],
@@ -32,9 +68,35 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ColdDream.Api.Controllers.BookingsController",
-    "Method": "CreateBooking",
-    "RelativePath": "api/Bookings",
+    "ContainingType": "ColdDream.Api.Controllers.AuthController",
+    "Method": "WeChatLogin",
+    "RelativePath": "api/Auth/wechat-login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "ColdDream.Api.DTOs.WeChatLoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.BannerController",
+    "Method": "GetBanners",
+    "RelativePath": "api/Banner",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.BookingController",
+    "Method": "Create",
+    "RelativePath": "api/Booking",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -48,9 +110,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ColdDream.Api.Controllers.BookingsController",
-    "Method": "GetBooking",
-    "RelativePath": "api/Bookings/{id}",
+    "ContainingType": "ColdDream.Api.Controllers.BookingController",
+    "Method": "GetById",
+    "RelativePath": "api/Booking/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -64,140 +126,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ColdDream.Api.Controllers.BookingsController",
-    "Method": "UpdateBooking",
-    "RelativePath": "api/Bookings/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "booking",
-        "Type": "ColdDream.Api.Models.Booking",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ColdDream.Api.Controllers.BookingsController",
-    "Method": "CancelBooking",
-    "RelativePath": "api/Bookings/{id}/cancel",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ColdDream.Api.Controllers.BookingsController",
-    "Method": "GetMyBookings",
-    "RelativePath": "api/Bookings/my",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ColdDream.Api.Controllers.ButlersController",
-    "Method": "GetAllButlers",
-    "RelativePath": "api/Butlers",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ColdDream.Api.Controllers.ButlersController",
-    "Method": "CreateButler",
-    "RelativePath": "api/Butlers",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "butler",
-        "Type": "ColdDream.Api.Models.Butler",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ColdDream.Api.Controllers.ButlersController",
-    "Method": "AssignButlerToRoute",
-    "RelativePath": "api/Butlers/{butlerId}/assign/{routeId}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "butlerId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "routeId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ColdDream.Api.Controllers.ButlersController",
-    "Method": "GetButler",
-    "RelativePath": "api/Butlers/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ColdDream.Api.Controllers.ButlersController",
-    "Method": "UpdateButler",
-    "RelativePath": "api/Butlers/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "butler",
-        "Type": "ColdDream.Api.Models.Butler",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ColdDream.Api.Controllers.ButlersController",
-    "Method": "DeleteButler",
-    "RelativePath": "api/Butlers/{id}",
+    "ContainingType": "ColdDream.Api.Controllers.BookingController",
+    "Method": "Delete",
+    "RelativePath": "api/Booking/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -211,8 +142,34 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ColdDream.Api.Controllers.BookingController",
+    "Method": "Cancel",
+    "RelativePath": "api/Booking/{id}/cancel",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.BookingController",
+    "Method": "GetMyBookings",
+    "RelativePath": "api/Booking/my",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ColdDream.Api.Controllers.ButlersController",
-    "Method": "GetButlersForRoute",
+    "Method": "GetButlersByRoute",
     "RelativePath": "api/Butlers/route/{routeId}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -224,6 +181,281 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.CouponController",
+    "Method": "GetMyCoupons",
+    "RelativePath": "api/Coupon/my",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.CouponController",
+    "Method": "IssueTestCoupon",
+    "RelativePath": "api/Coupon/test-issue",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
+    "Method": "Create",
+    "RelativePath": "api/CustomTour",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customTour",
+        "Type": "ColdDream.Api.Models.CustomTour",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
+    "Method": "GetById",
+    "RelativePath": "api/CustomTour/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
+    "Method": "Delete",
+    "RelativePath": "api/CustomTour/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
+    "Method": "Cancel",
+    "RelativePath": "api/CustomTour/{id}/cancel",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
+    "Method": "GetMyCustomTours",
+    "RelativePath": "api/CustomTour/my",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.GuideController",
+    "Method": "GetAll",
+    "RelativePath": "api/Guide",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.Models.Guide, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.GuideController",
+    "Method": "Create",
+    "RelativePath": "api/Guide",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "guide",
+        "Type": "ColdDream.Api.Models.Guide",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.Models.Guide",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.GuideController",
+    "Method": "GetById",
+    "RelativePath": "api/Guide/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.Models.Guide",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.GuideController",
+    "Method": "Update",
+    "RelativePath": "api/Guide/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "guide",
+        "Type": "ColdDream.Api.Models.Guide",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.GuideController",
+    "Method": "Delete",
+    "RelativePath": "api/Guide/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.GuideController",
+    "Method": "GetMyGuides",
+    "RelativePath": "api/Guide/my",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.Models.Guide, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.InspirationController",
+    "Method": "GetList",
+    "RelativePath": "api/Inspiration",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.InspirationController",
+    "Method": "Collect",
+    "RelativePath": "api/Inspiration/{id}/collect",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.InspirationController",
+    "Method": "Like",
+    "RelativePath": "api/Inspiration/{id}/like",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.InspirationController",
+    "Method": "GetCollected",
+    "RelativePath": "api/Inspiration/collected",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -354,6 +586,38 @@
         "Name": "id",
         "Type": "System.Guid",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.TourRoutesController",
+    "Method": "GetTopRoutes",
+    "RelativePath": "api/TourRoutes/top",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "count",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ColdDream.Api.Controllers.UploadController",
+    "Method": "Upload",
+    "RelativePath": "api/Upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

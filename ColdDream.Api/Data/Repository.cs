@@ -29,6 +29,16 @@ public class Repository<T> : IRepository<T> where T : class
         return await _dbSet.Where(predicate).ToListAsync();
     }
 
+    public async Task<IEnumerable<T>> FindWithIncludesAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = _dbSet;
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+        return await query.Where(predicate).ToListAsync();
+    }
+
     public async Task AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
@@ -42,5 +52,10 @@ public class Repository<T> : IRepository<T> where T : class
     public void Remove(T entity)
     {
         _dbSet.Remove(entity);
+    }
+
+    public IQueryable<T> GetQueryable()
+    {
+        return _dbSet;
     }
 }

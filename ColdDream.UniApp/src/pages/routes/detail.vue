@@ -11,6 +11,25 @@
         <text class="section-title">简介</text>
         <text class="desc-text">{{ route.description }}</text>
       </view>
+
+      <view class="section" v-if="route.routeMapUrl">
+        <text class="section-title">路线地图</text>
+        <image :src="route.routeMapUrl" mode="widthFix" class="map-image" @click="previewImage(route.routeMapUrl)" />
+      </view>
+
+      <view class="section" v-if="route.itinerary">
+        <text class="section-title">行程介绍</text>
+        <view class="timeline">
+          <view class="timeline-item" v-for="(day, index) in itineraryList" :key="index">
+            <view class="timeline-dot"></view>
+            <view class="timeline-line" v-if="Number(index) < itineraryList.length - 1"></view>
+            <view class="timeline-content">
+              <text class="day-title">Day {{ day.day }}: {{ day.title }}</text>
+              <text class="day-desc">{{ day.content }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
       
       <view class="actions">
         <button class="btn-book" @click="goToBook">立即预约</button>
@@ -23,12 +42,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { onLoad } from '@dcloudio/uni-app';
 import { getRouteDetails, type TourRoute } from '@/api/routes';
 
 const route = ref<TourRoute | null>(null);
 const routeId = ref<string>('');
+
+const itineraryList = computed(() => {
+  if (!route.value?.itinerary) return [];
+  try {
+    return JSON.parse(route.value.itinerary);
+  } catch (e) {
+    return [];
+  }
+});
 
 onLoad((options: any) => {
   if (options.id) {
@@ -59,6 +87,12 @@ const goToBook = () => {
   
   uni.navigateTo({
     url: `/pages/booking/create?routeId=${routeId.value}`
+  });
+};
+
+const previewImage = (url: string) => {
+  uni.previewImage({
+    urls: [url]
   });
 };
 </script>
@@ -117,7 +151,7 @@ const goToBook = () => {
     }
   }
   
-  .description {
+  .section {
     margin-top: 50rpx;
     padding-top: 40rpx;
     border-top: 1rpx solid #f0f0f0;
@@ -135,6 +169,65 @@ const goToBook = () => {
       color: #4a4a4a;
       line-height: 1.8;
       text-align: justify;
+    }
+
+    .map-image {
+      width: 100%;
+      border-radius: 20rpx;
+      box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.1);
+    }
+
+    .timeline {
+      padding-left: 20rpx;
+      
+      .timeline-item {
+        position: relative;
+        padding-bottom: 40rpx;
+        padding-left: 40rpx;
+        
+        &:last-child {
+          padding-bottom: 0;
+        }
+        
+        .timeline-dot {
+          position: absolute;
+          left: 0;
+          top: 10rpx;
+          width: 20rpx;
+          height: 20rpx;
+          background: #ff385c;
+          border-radius: 50%;
+          z-index: 2;
+          border: 4rpx solid #fff;
+          box-shadow: 0 0 0 4rpx #ff385c;
+        }
+        
+        .timeline-line {
+          position: absolute;
+          left: 10rpx;
+          top: 30rpx;
+          bottom: -10rpx;
+          width: 2rpx;
+          background: #e0e0e0;
+          z-index: 1;
+        }
+        
+        .timeline-content {
+          .day-title {
+            font-size: 32rpx;
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 10rpx;
+          }
+          
+          .day-desc {
+            font-size: 28rpx;
+            color: #666;
+            line-height: 1.6;
+          }
+        }
+      }
     }
   }
 }

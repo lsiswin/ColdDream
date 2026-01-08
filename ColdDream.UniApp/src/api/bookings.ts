@@ -2,25 +2,89 @@ import { request } from '@/utils/request';
 
 export interface BookingRequest {
     tourRouteId: string;
-    butlerId?: string;
-    peopleCount: number;
-    timeSlot: number; // 0: Morning, 1: Afternoon
+    bookingDate: string;
+    travelers: number;
     contactName: string;
     contactPhone: string;
-    travelDate: string;
+    timeSlot?: number;
+    butlerId?: string;
 }
 
-export const createBooking = (data: BookingRequest) => {
-    return request<any>({
-        url: '/bookings',
+export interface Booking {
+    id: string;
+    tourRouteId: string;
+    tourRoute?: any;
+    bookingDate: string;
+    travelers: number;
+    contactName: string;
+    contactPhone: string;
+    totalPrice: number;
+    status: string;
+    orderNumber?: string;
+    peopleCount?: number;
+    totalAmount?: number;
+    travelDate?: string;
+    butler?: any;
+}
+
+const mapRequestToBackend = (data: any) => {
+    return {
+        tourRouteId: data.tourRouteId,
+        bookingDate: data.travelDate,
+        travelers: data.peopleCount,
+        contactName: data.contactName,
+        contactPhone: data.contactPhone,
+        butlerId: data.butlerId,
+        couponId: data.couponId
+    };
+};
+
+export const createBooking = (data: any) => {
+    return request<Booking>({
+        url: '/booking',
         method: 'POST',
-        data,
+        data: mapRequestToBackend(data)
     });
 };
 
 export const getMyBookings = () => {
-    return request<any[]>({
-        url: '/bookings/my',
-        method: 'GET',
+    return request<Booking[]>({
+        url: '/booking/my',
+        method: 'GET'
+    }).then(res => {
+        return res.map(b => ({
+            ...b,
+            peopleCount: b.travelers,
+            travelDate: b.bookingDate,
+            totalAmount: b.totalPrice,
+            orderNumber: b.id.substring(0, 8).toUpperCase()
+        }));
+    });
+};
+
+export const getBookingById = (id: string) => {
+    return request<Booking>({
+        url: `/booking/${id}`,
+        method: 'GET'
+    }).then(res => ({
+        ...res,
+        peopleCount: res.travelers,
+        travelDate: res.bookingDate,
+        totalAmount: res.totalPrice,
+        orderNumber: res.id.substring(0, 8).toUpperCase()
+    }));
+};
+
+export const cancelBooking = (id: string) => {
+    return request({
+        url: `/booking/${id}/cancel`,
+        method: 'POST'
+    });
+};
+
+export const deleteBooking = (id: string) => {
+    return request({
+        url: `/booking/${id}`,
+        method: 'DELETE'
     });
 };

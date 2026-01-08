@@ -54,6 +54,17 @@
       <input class="input" v-model="form.contactPhone" placeholder="联系电话" />
     </view>
 
+    <view class="section">
+      <text class="section-title">优惠券 (仅限路线费用)</text>
+      <picker mode="selector" :range="availableCoupons" range-key="name" @change="onCouponChange">
+        <view class="picker-item">
+          <text>选择优惠券</text>
+          <text v-if="selectedCoupon" class="coupon-text">-¥{{ discountAmount }}</text>
+          <text v-else class="placeholder">{{ availableCoupons.length > 0 ? '有可用优惠券' : '无可用优惠券' }}</text>
+        </view>
+      </picker>
+    </view>
+
     <view class="footer">
       <view class="total-price">
         <text>总价: </text>
@@ -65,27 +76,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onLoad } from '@dcloudio/uni-app';
+import { ref, computed } from 'vue';
+import { onLoad } from '@dcloudio/uni-app';
 import { getRouteDetails, type TourRoute } from '@/api/routes';
 import { getButlersByRoute, type Butler } from '@/api/butlers';
 import { createBooking, type BookingRequest } from '@/api/bookings';
+import { getMyCoupons, type Coupon } from '@/api/coupon';
 
 const routeId = ref('');
 const route = ref<TourRoute | null>(null);
 const butlers = ref<Butler[]>([]);
+const coupons = ref<Coupon[]>([]);
 const startDate = new Date().toISOString().split('T')[0];
 
-const form = ref<BookingRequest>({
+const form = ref<BookingRequest & { couponId?: string }>({
   tourRouteId: '',
   peopleCount: 1,
   timeSlot: -1,
   contactName: '',
   contactPhone: '',
   travelDate: '',
-  butlerId: undefined
+  butlerId: undefined,
+  couponId: undefined
 });
 
 const selectedButlerPrice = ref(0);
+const selectedCoupon = ref<Coupon | null>(null);
 
 onLoad(async (options: any) => {
   if (options.routeId) {
@@ -97,12 +113,14 @@ onLoad(async (options: any) => {
 
 const loadData = async () => {
   try {
-    const [routeRes, butlersRes] = await Promise.all([
+    const [routeRes, butlersRes, couponsRes] = await Promise.all([
       getRouteDetails(routeId.value),
-      getButlersByRoute(routeId.value)
+      getButlersByRoute(routeId.value),
+      getMyCoupons()
     ]);
     route.value = routeRes;
     butlers.value = butlersRes;
+    coupons.value = couponsRes;
   } catch (error) {
     console.error(error);
   }
@@ -126,9 +144,40 @@ const selectButler = (butler: Butler) => {
   }
 };
 
-const totalPrice = computed(() => {
+const onCouponChange = (e: any) => {
+  const index = e.detail.value;
+  if (index >= 0) {
+    const coupon = availableCoupons.value[index];
+    selectedCoupon.value = coupon;
+    form.value.couponId = coupon.id;
+  } else {
+    selectedCoupon.value = null;
+    form.value.couponId = undefined;
+  }
+};
+
+const routeTotalPrice = computed(() => {
   if (!route.value) return 0;
-  return (route.value.price * form.value.peopleCount) + selectedButlerPrice.value;
+  return route.value.price * form.value.peopleCount;
+});
+
+const availableCoupons = computed(() => {
+  return coupons.value.filter(c => routeTotalPrice.value >= c.minSpend);
+});
+
+const discountAmount = computed(() => {
+  if (!selectedCoupon.value) return 0;
+  if (routeTotalPrice.value < selectedCoupon.value.minSpend) {
+    // If price drops below minSpend (e.g. reduced people), remove coupon
+    selectedCoupon.value = null;
+    form.value.couponId = undefined;
+    return 0;
+  }
+  return Math.min(selectedCoupon.value.amount, routeTotalPrice.value);
+});
+
+const totalPrice = computed(() => {
+  return Math.max(0, routeTotalPrice.value + selectedButlerPrice.value - discountAmount.value);
 });
 
 const submitBooking = async () => {
@@ -141,7 +190,7 @@ const submitBooking = async () => {
     await createBooking(form.value);
     uni.showToast({ title: '预约成功' });
     setTimeout(() => {
-      uni.switchTab({ url: '/pages/index/index' }); // Or go to my bookings
+      uni.switchTab({ url: '/pages/index/index' });
     }, 1500);
   } catch (error) {
     console.error(error);
@@ -257,5 +306,14 @@ const submitBooking = async () => {
     padding: 0 60rpx;
     border-radius: 40rpx;
   }
+}
+
+.coupon-text {
+  color: #ff5a5f;
+  font-weight: bold;
+}
+
+.placeholder {
+  color: #999;
 }
 </style>

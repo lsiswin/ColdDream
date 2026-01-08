@@ -67,26 +67,26 @@
         }
       }
     },
-    "/api/Bookings": {
+    "/api/Auth/wechat-login": {
       "post": {
         "tags": [
-          "Bookings"
+          "Auth"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/WeChatLoginDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/WeChatLoginDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/WeChatLoginDto"
               }
             }
           }
@@ -98,96 +98,10 @@
         }
       }
     },
-    "/api/Bookings/{id}": {
-      "get": {
-        "tags": [
-          "Bookings"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Bookings"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Booking"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Booking"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Booking"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Bookings/my": {
-      "get": {
-        "tags": [
-          "Bookings"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Bookings/{id}/cancel": {
+    "/api/Auth/guest-login": {
       "post": {
         "tags": [
-          "Bookings"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
+          "Auth"
         ],
         "responses": {
           "200": {
@@ -196,36 +110,26 @@
         }
       }
     },
-    "/api/Butlers": {
-      "get": {
-        "tags": [
-          "Butlers"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
+    "/api/Auth/profile": {
       "post": {
         "tags": [
-          "Butlers"
+          "Auth"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Butler"
+                "$ref": "#/components/schemas/UpdateProfileDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Butler"
+                "$ref": "#/components/schemas/UpdateProfileDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Butler"
+                "$ref": "#/components/schemas/UpdateProfileDto"
               }
             }
           }
@@ -237,31 +141,77 @@
         }
       }
     },
-    "/api/Butlers/{id}": {
+    "/api/Auth/me": {
       "get": {
         "tags": [
-          "Butlers"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
+          "Auth"
         ],
         "responses": {
           "200": {
             "description": "Success"
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/api/Banner": {
+      "get": {
         "tags": [
-          "Butlers"
+          "Banner"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Booking": {
+      "post": {
+        "tags": [
+          "Booking"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Booking/my": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Booking/{id}": {
+      "get": {
+        "tags": [
+          "Booking"
         ],
         "parameters": [
           {
@@ -274,25 +224,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Butler"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Butler"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Butler"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -301,7 +232,30 @@
       },
       "delete": {
         "tags": [
-          "Butlers"
+          "Booking"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Booking/{id}/cancel": {
+      "post": {
+        "tags": [
+          "Booking"
         ],
         "parameters": [
           {
@@ -344,23 +298,418 @@
         }
       }
     },
-    "/api/Butlers/{butlerId}/assign/{routeId}": {
+    "/api/Coupon/my": {
+      "get": {
+        "tags": [
+          "Coupon"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Coupon/test-issue": {
       "post": {
         "tags": [
-          "Butlers"
+          "Coupon"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/CustomTour": {
+      "post": {
+        "tags": [
+          "CustomTour"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomTour"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomTour"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomTour"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/CustomTour/my": {
+      "get": {
+        "tags": [
+          "CustomTour"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/CustomTour/{id}": {
+      "get": {
+        "tags": [
+          "CustomTour"
         ],
         "parameters": [
           {
-            "name": "butlerId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
             }
-          },
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CustomTour"
+        ],
+        "parameters": [
           {
-            "name": "routeId",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/CustomTour/{id}/cancel": {
+      "post": {
+        "tags": [
+          "CustomTour"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Guide": {
+      "get": {
+        "tags": [
+          "Guide"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Guide"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Guide"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Guide"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Guide"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Guide"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Guide"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Guide"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Guide"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Guide"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Guide"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Guide/{id}": {
+      "get": {
+        "tags": [
+          "Guide"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Guide"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Guide"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Guide"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Guide"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Guide"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Guide"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Guide"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Guide"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Guide/my": {
+      "get": {
+        "tags": [
+          "Guide"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Guide"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Guide"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Guide"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Inspiration": {
+      "get": {
+        "tags": [
+          "Inspiration"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Inspiration/collected": {
+      "get": {
+        "tags": [
+          "Inspiration"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Inspiration/{id}/like": {
+      "post": {
+        "tags": [
+          "Inspiration"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Inspiration/{id}/collect": {
+      "post": {
+        "tags": [
+          "Inspiration"
+        ],
+        "parameters": [
+          {
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -550,6 +899,29 @@
         }
       }
     },
+    "/api/TourRoutes/top": {
+      "get": {
+        "tags": [
+          "TourRoutes"
+        ],
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/TourRoutes/{id}": {
       "get": {
         "tags": [
@@ -572,13 +944,48 @@
           }
         }
       }
+    },
+    "/api/Upload": {
+      "post": {
+        "tags": [
+          "Upload"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "Booking": {
         "required": [
-          "orderNumber"
+          "bookingDate",
+          "contactName",
+          "contactPhone",
+          "travelers"
         ],
         "type": "object",
         "properties": {
@@ -608,36 +1015,38 @@
           "butler": {
             "$ref": "#/components/schemas/Butler"
           },
-          "status": {
+          "bookingDate": {
             "type": "string",
-            "nullable": true
+            "format": "date-time"
           },
-          "orderNumber": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "peopleCount": {
+          "travelers": {
             "type": "integer",
             "format": "int32"
           },
-          "timeSlot": {
-            "$ref": "#/components/schemas/TimeSlot"
-          },
           "contactName": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "contactPhone": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
-          "totalAmount": {
+          "totalPrice": {
             "type": "number",
             "format": "double"
           },
-          "travelDate": {
+          "discountAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "couponId": {
             "type": "string",
-            "format": "date-time"
+            "format": "uuid",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
           },
           "createdAt": {
             "type": "string",
@@ -676,14 +1085,123 @@
             "type": "number",
             "format": "double"
           },
-          "tourRoutes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TourRoute"
-            },
+          "tourRouteId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomTour": {
+        "required": [
+          "budget",
+          "days",
+          "destination",
+          "peopleCount",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "destination": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "startDate": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "days": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "peopleCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "budget": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "requirements": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
             "nullable": true
           },
           "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Guide": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "itinerary": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tags": {
+            "type": "string",
+            "nullable": true
+          },
+          "duration": {
+            "type": "string",
+            "nullable": true
+          },
+          "budget": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
             "type": "string",
             "format": "date-time"
           }
@@ -773,14 +1291,6 @@
         },
         "additionalProperties": false
       },
-      "TimeSlot": {
-        "enum": [
-          0,
-          1
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
       "TourRoute": {
         "required": [
           "title"
@@ -814,6 +1324,18 @@
             "type": "string",
             "nullable": true
           },
+          "routeMapUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "itinerary": {
+            "type": "string",
+            "nullable": true
+          },
+          "sales": {
+            "type": "integer",
+            "format": "int32"
+          },
           "butlers": {
             "type": "array",
             "items": {
@@ -824,6 +1346,23 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateProfileDto": {
+        "required": [
+          "nickName"
+        ],
+        "type": "object",
+        "properties": {
+          "nickName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -903,6 +1442,24 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeChatLoginDto": {
+        "required": [
+          "loginCode",
+          "phoneCode"
+        ],
+        "type": "object",
+        "properties": {
+          "loginCode": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "phoneCode": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false

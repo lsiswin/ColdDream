@@ -1,74 +1,132 @@
 using ColdDream.Api.Data;
 using ColdDream.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ColdDream.Api.Services;
 
+public interface IBookingService
+{
+    Task<Booking> CreateBookingAsync(Guid userId, Booking booking);
+    Task<IEnumerable<Booking>> GetUserBookingsAsync(Guid userId);
+    Task<Booking?> GetBookingByIdAsync(Guid id);
+    Task<bool> CancelBookingAsync(Guid id, Guid userId);
+    Task<bool> DeleteBookingAsync(Guid id, Guid userId);
+}
+
 public class BookingService : IBookingService
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly AppDbContext _context;
 
-    public BookingService(IUnitOfWork unitOfWork)
+    public BookingService(AppDbContext context)
     {
-        _unitOfWork = unitOfWork;
+        _context = context;
     }
 
-    public async Task<Booking> CreateBookingAsync(Booking booking)
+    public async Task<Booking> CreateBookingAsync(Guid userId, Booking booking)
     {
-        // Generate Order Number
-        booking.OrderNumber = GenerateOrderNumber();
-        booking.Status = "Pending";
+        booking.UserId = userId;
+        booking.Status = "Confirmed"; // Auto-confirm since we skip payment
         booking.CreatedAt = DateTime.UtcNow;
+        
+        // Calculate price
+        decimal routePrice = 0;
+        decimal butlerPrice = 0;
 
-        // Calculate Total Amount (Basic logic for now)
-        var route = await _unitOfWork.Repository<TourRoute>().GetByIdAsync(booking.TourRouteId);
+        var route = await _context.TourRoutes.FindAsync(booking.TourRouteId);
         if (route != null)
         {
-            decimal butlerPrice = 0;
-            if (booking.ButlerId.HasValue)
-            {
-                var butler = await _unitOfWork.Repository<Butler>().GetByIdAsync(booking.ButlerId.Value);
-                if (butler != null)
-                {
-                    butlerPrice = butler.Price;
-                }
-            }
-            booking.TotalAmount = (route.Price * booking.PeopleCount) + butlerPrice;
+            routePrice = route.Price;
+            route.Sales += booking.Travelers;
         }
 
-        await _unitOfWork.Repository<Booking>().AddAsync(booking);
-        await _unitOfWork.CompleteAsync();
-        return booking;
-    }
+        if (booking.ButlerId.HasValue)
+        {
+            var butler = await _context.Butlers.FindAsync(booking.ButlerId.Value);
+            if (butler != null)
+            {
+                butlerPrice = butler.Price;
+            }
+        }
 
-    public async Task<Booking?> GetBookingByIdAsync(Guid id)
-    {
-        return await _unitOfWork.Repository<Booking>().GetByIdAsync(id);
+        // Apply Coupon
+        decimal discount = 0;
+        if (booking.CouponId.HasValue)
+        {
+            var coupon = await _context.Coupons.FindAsync(booking.CouponId.Value);
+            if (coupon != null && !coupon.IsUsed && coupon.ExpiryDate > DateTime.UtcNow && coupon.UserId == userId)
+            {
+                // Discount applies ONLY to route price (routePrice * travelers)
+                decimal routeTotal = routePrice * booking.Travelers;
+                if (routeTotal >= coupon.MinSpend)
+                {
+                    discount = Math.Min(coupon.Amount, routeTotal);
+                    booking.DiscountAmount = discount;
+                    
+                    // Mark coupon as used
+                    coupon.IsUsed = true;
+                }
+            }
+        }
+
+        booking.TotalPrice = (routePrice * booking.Travelers) + butlerPrice - discount;
+
+        _context.Bookings.Add(booking);
+        await _context.SaveChangesAsync();
+        return booking;
     }
 
     public async Task<IEnumerable<Booking>> GetUserBookingsAsync(Guid userId)
     {
-        return await _unitOfWork.Repository<Booking>().FindAsync(b => b.UserId == userId);
+        return await _context.Bookings
+            .Include(b => b.TourRoute)
+            .Include(b => b.Butler)
+            .Where(b => b.UserId == userId)
+            .OrderByDescending(b => b.CreatedAt)
+            .ToListAsync();
     }
 
-    public async Task UpdateBookingAsync(Booking booking)
+    public async Task<Booking?> GetBookingByIdAsync(Guid id)
     {
-        _unitOfWork.Repository<Booking>().Update(booking);
-        await _unitOfWork.CompleteAsync();
+        return await _context.Bookings
+            .Include(b => b.TourRoute)
+            .Include(b => b.Butler)
+            .FirstOrDefaultAsync(b => b.Id == id);
     }
 
-    public async Task CancelBookingAsync(Guid id)
+    public async Task<bool> CancelBookingAsync(Guid id, Guid userId)
     {
-        var booking = await _unitOfWork.Repository<Booking>().GetByIdAsync(id);
-        if (booking != null)
+        var booking = await _context.Bookings.FindAsync(id);
+        if (booking == null || booking.UserId != userId)
         {
-            booking.Status = "Cancelled";
-            _unitOfWork.Repository<Booking>().Update(booking);
-            await _unitOfWork.CompleteAsync();
+            return false;
         }
+
+        if (booking.Status == "Cancelled" || booking.Status == "Completed")
+        {
+            return false;
+        }
+
+        booking.Status = "Cancelled";
+        await _context.SaveChangesAsync();
+        return true;
     }
 
-    private string GenerateOrderNumber()
+    public async Task<bool> DeleteBookingAsync(Guid id, Guid userId)
     {
-        return DateTime.Now.ToString("yyyyMMddHHmmss") + new Random().Next(1000, 9999);
+        var booking = await _context.Bookings.FindAsync(id);
+        if (booking == null || booking.UserId != userId)
+        {
+            return false;
+        }
+
+        // Only allow deleting cancelled or completed bookings
+        if (booking.Status != "Cancelled" && booking.Status != "Completed")
+        {
+            return false;
+        }
+
+        _context.Bookings.Remove(booking);
+        await _context.SaveChangesAsync();
+        return true;
     }
 }
