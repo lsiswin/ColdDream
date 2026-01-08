@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ColdDream.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da4dc404102de8949e36a31fdabebbbef970ffaa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5a7bc6329786cf5343ff6d9c5109d5ce0eaa7bb")]
 [assembly: System.Reflection.AssemblyProductAttribute("ColdDream.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ColdDream.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
