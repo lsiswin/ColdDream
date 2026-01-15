@@ -105,7 +105,9 @@ onLoad(async (options: any) => {
 
 const loadDetail = async (id: string) => {
   try {
-    const res = await getGuideById(id);
+    const apiRes = await getGuideById(id);
+    if (!apiRes.success) return;
+    const res = apiRes.data;
     form.value = {
       id: res.id,
       title: res.title,
@@ -162,8 +164,12 @@ const uploadImage = (filePath: string) => {
       }
       
       try {
-        const data = JSON.parse(uploadRes.data);
-        form.value.imageUrl = 'https://localhost:7282' + data.url;
+        const result = JSON.parse(uploadRes.data);
+        if (result.success && result.data && result.data.url) {
+          form.value.imageUrl = 'https://localhost:7282' + result.data.url;
+        } else {
+          uni.showToast({ title: result.message || '上传失败', icon: 'none' });
+        }
         uni.hideLoading();
       } catch (e) {
         console.error('JSON Parse Error:', e);
@@ -209,16 +215,30 @@ const submit = async () => {
   form.value.itinerary = JSON.stringify(itineraryList.value);
 
   try {
+    let success = false;
     if (isEdit.value) {
-      await updateGuide(guideId.value, form.value);
-      uni.showToast({ title: '更新成功' });
+      const res = await updateGuide(guideId.value, form.value);
+      if (res.success) {
+        uni.showToast({ title: '更新成功' });
+        success = true;
+      } else {
+        uni.showToast({ title: res.message || '更新失败', icon: 'none' });
+      }
     } else {
-      await createGuide(form.value);
-      uni.showToast({ title: '创建成功' });
+      const res = await createGuide(form.value);
+      if (res.success) {
+        uni.showToast({ title: '创建成功' });
+        success = true;
+      } else {
+        uni.showToast({ title: res.message || '创建失败', icon: 'none' });
+      }
     }
-    setTimeout(() => {
-      uni.navigateBack();
-    }, 1500);
+    
+    if (success) {
+      setTimeout(() => {
+        uni.navigateBack();
+      }, 1500);
+    }
   } catch (error) {
     console.error(error);
   }

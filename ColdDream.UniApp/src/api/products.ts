@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 export interface Product {
     id: string;
@@ -10,14 +10,14 @@ export interface Product {
 }
 
 export const getProducts = () => {
-    return request<Product[]>({
+    return request<ApiResponse<Product[]>>({
         url: '/products',
         method: 'GET',
     });
 };
 
 export const buyProduct = (id: string) => {
-    return request<void>({
+    return request<ApiResponse<any>>({
         url: `/products/${id}/buy`,
         method: 'POST',
     });

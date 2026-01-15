@@ -47,7 +47,9 @@ onShow(() => {
 const loadData = async () => {
   try {
     const res = await getMyGuides();
-    list.value = res;
+    if (res.success) {
+      list.value = res.data;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -75,9 +77,13 @@ const handleDelete = (item: Guide) => {
     success: async (res) => {
       if (res.confirm) {
         try {
-          await deleteGuide(item.id);
-          uni.showToast({ title: '已删除' });
-          loadData();
+          const apiRes = await deleteGuide(item.id);
+          if (apiRes.success) {
+            uni.showToast({ title: '已删除' });
+            loadData();
+          } else {
+            uni.showToast({ title: apiRes.message || '删除失败', icon: 'none' });
+          }
         } catch (error) {
           console.error(error);
         }

@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 export interface Butler {
     id: string;
@@ -10,7 +10,7 @@ export interface Butler {
 }
 
 export const getButlersByRoute = (routeId: string) => {
-    return request<Butler[]>({
+    return request<ApiResponse<Butler[]>>({
         url: `/butlers/route/${routeId}`,
         method: 'GET',
     });

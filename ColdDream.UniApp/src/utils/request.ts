@@ -1,10 +1,16 @@
-const BASE_URL = 'http://localhost:5116/api'; // Updated port
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5116/api';
 
 interface RequestOptions {
   url: string;
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
   data?: any;
   header?: any;
+}
+
+export interface ApiResponse<T = any> {
+  success: boolean;
+  message: string;
+  data: T;
 }
 
 export const request = <T>(options: RequestOptions): Promise<T> => {
@@ -17,6 +23,9 @@ export const request = <T>(options: RequestOptions): Promise<T> => {
 
     if (token) {
       header['Authorization'] = `Bearer ${token}`;
+      // console.log('Request with token:', token.substring(0, 10) + '...');
+    } else {
+      console.warn('Request without token:', options.url);
     }
 
     uni.request({
@@ -27,6 +36,19 @@ export const request = <T>(options: RequestOptions): Promise<T> => {
       success: (res: any) => {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           resolve(res.data as T);
+        } else if (res.statusCode === 401) {
+          // Handle Unauthorized
+          uni.removeStorageSync('token');
+          uni.showToast({
+            title: 'Session expired, please login again',
+            icon: 'none',
+          });
+          setTimeout(() => {
+            uni.reLaunch({
+              url: '/pages/auth/login',
+            });
+          }, 1500);
+          reject(res.data);
         } else {
           uni.showToast({
             title: res.data?.message || 'Request failed',

@@ -70,7 +70,9 @@ const loadData = async () => {
   loading.value = true;
   try {
     const res = await getCollectedInspirations();
-    list.value = res;
+    if (res.success) {
+      list.value = res.data;
+    }
   } catch (error) {
     console.error(error);
   } finally {
@@ -81,8 +83,10 @@ const loadData = async () => {
 const handleLike = async (item: Inspiration) => {
   try {
     const res = await likeInspiration(item.id);
-    item.likes = res.likes;
-    item.isLiked = res.isLiked;
+    if (res.success) {
+      item.likes = res.data.likes;
+      item.isLiked = res.data.isLiked;
+    }
   } catch (error) {
     uni.showToast({ title: '操作失败', icon: 'none' });
   }
@@ -91,11 +95,13 @@ const handleLike = async (item: Inspiration) => {
 const handleCollect = async (item: Inspiration) => {
   try {
     const res = await collectInspiration(item.id);
-    item.collects = res.collects;
-    item.isCollected = res.isCollected;
-    // If uncollected, remove from list
-    if (!res.isCollected) {
-        list.value = list.value.filter(i => i.id !== item.id);
+    if (res.success) {
+      item.collects = res.data.collects;
+      item.isCollected = res.data.isCollected;
+      // If uncollected, remove from list
+      if (!res.data.isCollected) {
+          list.value = list.value.filter(i => i.id !== item.id);
+      }
     }
   } catch (error) {
     uni.showToast({ title: '操作失败', icon: 'none' });

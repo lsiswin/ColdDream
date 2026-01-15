@@ -46,10 +46,12 @@ const loadData = async () => {
       authStore.token ? getUserProfile() : Promise.resolve(null)
     ]);
     
-    products.value = productsRes;
+    if (productsRes.success) {
+      products.value = productsRes.data;
+    }
     
-    if (userRes) {
-      authStore.setUser({ ...authStore.user, ...userRes });
+    if (userRes && userRes.success) {
+      authStore.setUser({ ...authStore.user, ...userRes.data });
     }
   } catch (error) {
     console.error(error);
@@ -68,11 +70,18 @@ const handleBuy = async (product: Product) => {
     success: async (res) => {
       if (res.confirm) {
         try {
-          await buyProduct(product.id);
-          uni.showToast({ title: '兑换成功' });
-          loadData(); // Refresh list and stock
-          // Refresh user points (need an API for that or update locally if API returns new points)
+          uni.showLoading({ title: '处理中...' });
+          const buyRes = await buyProduct(product.id);
+          uni.hideLoading();
+          
+          if (buyRes.success) {
+            uni.showToast({ title: '兑换成功' });
+            loadData(); // Refresh list and stock
+          } else {
+            uni.showToast({ title: buyRes.message || '兑换失败', icon: 'none' });
+          }
         } catch (error) {
+          uni.hideLoading();
           console.error(error);
           uni.showToast({ title: '兑换失败', icon: 'none' });
         }

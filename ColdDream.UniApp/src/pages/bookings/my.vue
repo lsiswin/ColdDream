@@ -99,7 +99,10 @@ onMounted(() => {
 
 const loadBookings = async () => {
   try {
-    bookings.value = await getMyBookings();
+    const res = await getMyBookings();
+    if (res.success) {
+      bookings.value = res.data;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -132,9 +135,13 @@ const handleCancel = async (booking: Booking) => {
     success: async (res) => {
       if (res.confirm) {
         try {
-          await cancelBooking(booking.id);
-          uni.showToast({ title: '取消成功' });
-          loadBookings();
+          const apiRes = await cancelBooking(booking.id);
+          if (apiRes.success) {
+            uni.showToast({ title: '取消成功' });
+            loadBookings();
+          } else {
+            uni.showToast({ title: apiRes.message || '取消失败', icon: 'none' });
+          }
         } catch (error) {
           console.error(error);
         }
@@ -150,9 +157,13 @@ const handleDelete = async (booking: Booking) => {
     success: async (res) => {
       if (res.confirm) {
         try {
-          await deleteBooking(booking.id);
-          uni.showToast({ title: '删除成功' });
-          loadBookings();
+          const apiRes = await deleteBooking(booking.id);
+          if (apiRes.success) {
+            uni.showToast({ title: '删除成功' });
+            loadBookings();
+          } else {
+            uni.showToast({ title: apiRes.message || '删除失败', icon: 'none' });
+          }
         } catch (error) {
           console.error(error);
         }

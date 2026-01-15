@@ -60,7 +60,10 @@ onLoad(async (options: any) => {
 
 const loadData = async (id: string) => {
   try {
-    guide.value = await getGuideById(id);
+    const res = await getGuideById(id);
+    if (res.success) {
+      guide.value = res.data;
+    }
   } catch (error) {
     console.error(error);
   }

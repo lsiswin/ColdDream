@@ -67,7 +67,10 @@ onLoad((options: any) => {
 
 const loadDetail = async (id: string) => {
   try {
-    route.value = await getRouteDetails(id);
+    const res = await getRouteDetails(id);
+    if (res.success) {
+      route.value = res.data;
+    }
   } catch (error) {
     console.error('Failed to load detail', error);
     uni.showToast({

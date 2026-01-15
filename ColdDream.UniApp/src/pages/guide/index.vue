@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 import type { Guide } from '@/api/guide';
 
 const list = ref<Guide[]>([]);
@@ -51,11 +51,13 @@ onShow(() => {
 
 const loadData = async () => {
   try {
-    const res = await request<Guide[]>({
+    const res = await request<ApiResponse<Guide[]>>({
       url: '/guide',
       method: 'GET'
     });
-    list.value = res;
+    if (res.success) {
+      list.value = res.data;
+    }
   } catch (error) {
     console.error(error);
   }

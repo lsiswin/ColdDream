@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 export interface Banner {
     id: string;
@@ -10,7 +10,7 @@ export interface Banner {
 }
 
 export const getBanners = () => {
-    return request<Banner[]>({
+    return request<ApiResponse<Banner[]>>({
         url: '/banner',
         method: 'GET',
     });

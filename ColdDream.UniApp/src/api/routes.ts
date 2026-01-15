@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 export interface TourRoute {
     id: string;
@@ -14,21 +14,21 @@ export interface TourRoute {
 }
 
 export const getRoutes = () => {
-    return request<TourRoute[]>({
+    return request<ApiResponse<TourRoute[]>>({
         url: '/tourroutes',
         method: 'GET',
     });
 };
 
 export const getRouteDetails = (id: string) => {
-    return request<TourRoute>({
+    return request<ApiResponse<TourRoute>>({
         url: `/tourroutes/${id}`,
         method: 'GET',
     });
 };
 
 export const getTopRoutes = (count: number = 5) => {
-    return request<TourRoute[]>({
+    return request<ApiResponse<TourRoute[]>>({
         url: `/tourroutes/top?count=${count}`,
         method: 'GET'
     });

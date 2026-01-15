@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 export interface UserProfile {
     id: string;
@@ -10,14 +10,14 @@ export interface UserProfile {
 }
 
 export const getUserProfile = () => {
-    return request<UserProfile>({
+    return request<ApiResponse<UserProfile>>({
         url: '/auth/me',
         method: 'GET'
     });
 };
 
 export const updateProfile = (data: { nickName: string; avatarUrl?: string }) => {
-    return request({
+    return request<ApiResponse<any>>({
         url: '/auth/profile',
         method: 'PUT',
         data

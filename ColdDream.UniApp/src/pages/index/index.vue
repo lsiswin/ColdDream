@@ -143,9 +143,10 @@ const loadData = async () => {
       getTopRoutes(5),
       getBanners()
     ]);
-    routes.value = routesRes;
-    topRoutes.value = topRoutesRes;
-    banners.value = bannersRes;
+    
+    if (routesRes.success) routes.value = routesRes.data;
+    if (topRoutesRes.success) topRoutes.value = topRoutesRes.data;
+    if (bannersRes.success) banners.value = bannersRes.data;
     
     // Fallback if no banners
     if (banners.value.length === 0) {

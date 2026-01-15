@@ -95,11 +95,16 @@ const submit = async () => {
   }
   
   try {
-    await createCustomTour(form.value);
-    uni.showToast({ title: '提交成功' });
-    setTimeout(() => {
-      uni.redirectTo({ url: '/pages/custom-tour/list' });
-    }, 1500);
+    const res = await createCustomTour(form.value);
+    
+    if (res.success) {
+      uni.showToast({ title: '提交成功' });
+      setTimeout(() => {
+        uni.redirectTo({ url: '/pages/custom-tour/list' });
+      }, 1500);
+    } else {
+      uni.showToast({ title: res.message || '提交失败', icon: 'none' });
+    }
   } catch (error) {
     console.error(error);
     uni.showToast({ title: '提交失败', icon: 'none' });

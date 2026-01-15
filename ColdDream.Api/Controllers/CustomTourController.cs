@@ -1,8 +1,10 @@
 using ColdDream.Api.Models;
 using ColdDream.Api.Services;
+using ColdDream.Api.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using AutoMapper;
 
 namespace ColdDream.Api.Controllers;
 
@@ -12,66 +14,72 @@ namespace ColdDream.Api.Controllers;
 public class CustomTourController : ControllerBase
 {
     private readonly ICustomTourService _customTourService;
+    private readonly IMapper _mapper;
 
-    public CustomTourController(ICustomTourService customTourService)
+    public CustomTourController(ICustomTourService customTourService, IMapper mapper)
     {
         _customTourService = customTourService;
+        _mapper = mapper;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CustomTour customTour)
+    public async Task<ApiResponse<CustomTourDto>> Create(CreateCustomTourDto customTourDto)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<CustomTourDto>.Fail("Unauthorized");
 
+        var customTour = _mapper.Map<CustomTour>(customTourDto);
         customTour.UserId = Guid.Parse(userId);
         var result = await _customTourService.CreateAsync(customTour);
-        return Ok(result);
+        var dto = _mapper.Map<CustomTourDto>(result);
+        return ApiResponse<CustomTourDto>.Ok(dto);
     }
 
     [HttpGet("my")]
-    public async Task<IActionResult> GetMyCustomTours()
+    public async Task<ApiResponse<IEnumerable<CustomTourDto>>> GetMyCustomTours()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<IEnumerable<CustomTourDto>>.Fail("Unauthorized");
 
         var result = await _customTourService.GetUserCustomToursAsync(Guid.Parse(userId));
-        return Ok(result);
+        var dtos = _mapper.Map<IEnumerable<CustomTourDto>>(result);
+        return ApiResponse<IEnumerable<CustomTourDto>>.Ok(dtos);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<ApiResponse<CustomTourDto>> GetById(Guid id)
     {
         var result = await _customTourService.GetByIdAsync(id);
-        if (result == null) return NotFound();
+        if (result == null) return ApiResponse<CustomTourDto>.Fail("Tour not found");
         
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (result.UserId.ToString() != userId) return Forbid();
+        if (result.UserId.ToString() != userId) return ApiResponse<CustomTourDto>.Fail("Forbidden");
 
-        return Ok(result);
+        var dto = _mapper.Map<CustomTourDto>(result);
+        return ApiResponse<CustomTourDto>.Ok(dto);
     }
 
     [HttpPost("{id}/cancel")]
-    public async Task<IActionResult> Cancel(Guid id)
+    public async Task<ApiResponse<object>> Cancel(Guid id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<object>.Fail("Unauthorized");
 
         var success = await _customTourService.CancelAsync(id, Guid.Parse(userId));
-        if (!success) return BadRequest("Cannot cancel this tour request.");
+        if (!success) return ApiResponse<object>.Fail("Cannot cancel this tour request.");
         
-        return Ok();
+        return ApiResponse<object>.Ok(null);
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<ApiResponse<object>> Delete(Guid id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<object>.Fail("Unauthorized");
 
         var success = await _customTourService.DeleteAsync(id, Guid.Parse(userId));
-        if (!success) return NotFound();
+        if (!success) return ApiResponse<object>.Fail("Tour not found or cannot delete");
 
-        return Ok();
+        return ApiResponse<object>.Ok(null);
     }
 }

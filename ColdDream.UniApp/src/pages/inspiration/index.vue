@@ -70,7 +70,9 @@ const loadData = async () => {
   loading.value = true;
   try {
     const res = await getInspirations();
-    list.value = res;
+    if (res.success) {
+      list.value = res.data;
+    }
     
     // Fallback data for demo if empty
     if (list.value.length === 0) {
@@ -91,8 +93,10 @@ const loadData = async () => {
 const handleLike = async (item: Inspiration) => {
   try {
     const res = await likeInspiration(item.id);
-    item.likes = res.likes;
-    item.isLiked = res.isLiked;
+    if (res.success) {
+      item.likes = res.data.likes;
+      item.isLiked = res.data.isLiked;
+    }
   } catch (error) {
     // If 401, prompt login
     uni.showToast({ title: '请先登录', icon: 'none' });
@@ -102,8 +106,10 @@ const handleLike = async (item: Inspiration) => {
 const handleCollect = async (item: Inspiration) => {
   try {
     const res = await collectInspiration(item.id);
-    item.collects = res.collects;
-    item.isCollected = res.isCollected;
+    if (res.success) {
+      item.collects = res.data.collects;
+      item.isCollected = res.data.isCollected;
+    }
   } catch (error) {
     uni.showToast({ title: '请先登录', icon: 'none' });
   }

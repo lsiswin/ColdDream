@@ -7,7 +7,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.AuthResponseDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.AuthController",
@@ -23,7 +33,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.AuthResponseDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.AuthController",
@@ -33,7 +53,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.UserProfileDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.AuthController",
@@ -49,7 +79,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.AuthController",
@@ -65,7 +105,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.AuthResponseDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.AuthController",
@@ -81,7 +131,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.AuthResponseDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.BannerController",
@@ -91,7 +151,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.BannerDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.BookingController",
@@ -102,12 +172,22 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "booking",
-        "Type": "ColdDream.Api.Models.Booking",
+        "Name": "bookingDto",
+        "Type": "ColdDream.Api.DTOs.CreateBookingDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.BookingDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.BookingController",
@@ -123,7 +203,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.BookingDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.BookingController",
@@ -139,7 +229,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.BookingController",
@@ -155,7 +255,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.BookingController",
@@ -165,7 +275,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.BookingDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.ButlersController",
@@ -181,7 +301,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.ButlerDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.CouponController",
@@ -191,7 +321,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.CouponDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.CouponController",
@@ -201,7 +341,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
@@ -212,12 +362,22 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "customTour",
-        "Type": "ColdDream.Api.Models.CustomTour",
+        "Name": "customTourDto",
+        "Type": "ColdDream.Api.DTOs.CreateCustomTourDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.CustomTourDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
@@ -233,7 +393,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.CustomTourDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
@@ -249,7 +419,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
@@ -265,7 +445,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.CustomTourController",
@@ -275,7 +465,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.CustomTourDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.GuideController",
@@ -287,7 +487,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.Models.Guide, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.GuideDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -306,14 +506,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "guide",
-        "Type": "ColdDream.Api.Models.Guide",
+        "Name": "guideDto",
+        "Type": "ColdDream.Api.DTOs.CreateGuideDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ColdDream.Api.Models.Guide",
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.GuideDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -339,7 +539,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ColdDream.Api.Models.Guide",
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.GuideDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -363,12 +563,22 @@
         "IsRequired": true
       },
       {
-        "Name": "guide",
-        "Type": "ColdDream.Api.Models.Guide",
+        "Name": "guideDto",
+        "Type": "ColdDream.Api.DTOs.CreateGuideDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.GuideController",
@@ -384,7 +594,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.GuideController",
@@ -396,7 +616,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.Models.Guide, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.GuideDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -414,7 +634,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.InspirationDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.InspirationController",
@@ -430,7 +660,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.InspirationController",
@@ -446,7 +686,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.InspirationController",
@@ -456,7 +706,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.InspirationDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.LeaderboardController",
@@ -472,7 +732,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.LeaderboardController",
@@ -488,7 +758,17 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.TourRouteDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.ProductsController",
@@ -498,7 +778,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.ProductDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.ProductsController",
@@ -509,12 +799,22 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "product",
-        "Type": "ColdDream.Api.Models.Product",
+        "Name": "createProductDto",
+        "Type": "ColdDream.Api.DTOs.CreateProductDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.ProductDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.ProductsController",
@@ -530,7 +830,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.ProductDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.ProductsController",
@@ -546,7 +856,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.TourRoutesController",
@@ -556,7 +876,17 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.TourRouteDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.TourRoutesController",
@@ -567,12 +897,22 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "route",
-        "Type": "ColdDream.Api.Models.TourRoute",
+        "Name": "routeDto",
+        "Type": "ColdDream.Api.DTOs.CreateTourRouteDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.TourRouteDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.TourRoutesController",
@@ -588,7 +928,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[ColdDream.Api.DTOs.TourRouteDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.TourRoutesController",
@@ -604,7 +954,17 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[ColdDream.Api.DTOs.TourRouteDto, ColdDream.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ColdDream.Api.Controllers.UploadController",
@@ -620,6 +980,16 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "ColdDream.Api.DTOs.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

@@ -1,7 +1,9 @@
 using ColdDream.Api.Models;
 using ColdDream.Api.Services;
+using ColdDream.Api.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace ColdDream.Api.Controllers;
 
@@ -10,30 +12,32 @@ namespace ColdDream.Api.Controllers;
 public class TourRoutesController : ControllerBase
 {
     private readonly ITourRouteService _tourRouteService;
+    private readonly IMapper _mapper;
 
-    public TourRoutesController(ITourRouteService tourRouteService)
+    public TourRoutesController(ITourRouteService tourRouteService, IMapper mapper)
     {
         _tourRouteService = tourRouteService;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetRoutes()
+    public async Task<ApiResponse<IEnumerable<TourRouteDto>>> GetRoutes()
     {
         // For now, return public routes. 
         // In real app, might want to return all but hide details for private ones.
         var routes = await _tourRouteService.GetPublicRoutesAsync();
-        return Ok(routes);
+        return ApiResponse<IEnumerable<TourRouteDto>>.Ok(_mapper.Map<IEnumerable<TourRouteDto>>(routes));
     }
 
     [HttpGet("top")]
-    public async Task<IActionResult> GetTopRoutes([FromQuery] int count = 10)
+    public async Task<ApiResponse<IEnumerable<TourRouteDto>>> GetTopRoutes([FromQuery] int count = 10)
     {
         var routes = await _tourRouteService.GetTopSellingRoutesAsync(count);
-        return Ok(routes);
+        return ApiResponse<IEnumerable<TourRouteDto>>.Ok(_mapper.Map<IEnumerable<TourRouteDto>>(routes));
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetRoute(Guid id)
+    public async Task<ApiResponse<TourRouteDto>> GetRoute(Guid id)
     {
         var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
         var route = await _tourRouteService.GetRouteDetailsAsync(id, isAuthenticated);
@@ -42,17 +46,18 @@ public class TourRoutesController : ControllerBase
         {
             // Distinguish between not found and forbidden?
             // For security, maybe just 404 or 403.
-            return NotFound("Route not found or you do not have permission to view it.");
+            return ApiResponse<TourRouteDto>.Fail("Route not found or you do not have permission to view it.");
         }
 
-        return Ok(route);
+        return ApiResponse<TourRouteDto>.Ok(_mapper.Map<TourRouteDto>(route));
     }
 
     [HttpPost]
     [Authorize] // Only logged in users can create (or Admin)
-    public async Task<IActionResult> CreateRoute(TourRoute route)
+    public async Task<ApiResponse<TourRouteDto>> CreateRoute(CreateTourRouteDto routeDto)
     {
+        var route = _mapper.Map<TourRoute>(routeDto);
         var createdRoute = await _tourRouteService.CreateRouteAsync(route);
-        return CreatedAtAction(nameof(GetRoute), new { id = createdRoute.Id }, createdRoute);
+        return ApiResponse<TourRouteDto>.Ok(_mapper.Map<TourRouteDto>(createdRoute));
     }
 }

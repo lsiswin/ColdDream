@@ -118,9 +118,9 @@ const loadData = async () => {
       getButlersByRoute(routeId.value),
       getMyCoupons()
     ]);
-    route.value = routeRes;
-    butlers.value = butlersRes;
-    coupons.value = couponsRes;
+    if (routeRes.success) route.value = routeRes.data;
+    if (butlersRes.success) butlers.value = butlersRes.data;
+    if (couponsRes.success) coupons.value = couponsRes.data;
   } catch (error) {
     console.error(error);
   }
@@ -187,11 +187,16 @@ const submitBooking = async () => {
   }
 
   try {
-    await createBooking(form.value);
-    uni.showToast({ title: '预约成功' });
-    setTimeout(() => {
-      uni.switchTab({ url: '/pages/index/index' });
-    }, 1500);
+    const res = await createBooking(form.value);
+    
+    if (res.success) {
+      uni.showToast({ title: '预约成功' });
+      setTimeout(() => {
+        uni.switchTab({ url: '/pages/index/index' });
+      }, 1500);
+    } else {
+      uni.showToast({ title: res.message || '预约失败', icon: 'none' });
+    }
   } catch (error) {
     console.error(error);
   }

@@ -62,7 +62,9 @@ onMounted(() => {
 const loadData = async () => {
   try {
     const res = await getMyCustomTours();
-    list.value = res;
+    if (res.success) {
+      list.value = res.data;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -75,9 +77,13 @@ const handleCancel = (item: CustomTour) => {
     success: async (res) => {
       if (res.confirm) {
         try {
-          await cancelCustomTour(item.id);
-          uni.showToast({ title: '已取消' });
-          loadData();
+          const apiRes = await cancelCustomTour(item.id);
+          if (apiRes.success) {
+            uni.showToast({ title: '已取消' });
+            loadData();
+          } else {
+            uni.showToast({ title: apiRes.message || '取消失败', icon: 'none' });
+          }
         } catch (error) {
           console.error(error);
         }
@@ -93,9 +99,13 @@ const handleDelete = (item: CustomTour) => {
     success: async (res) => {
       if (res.confirm) {
         try {
-          await deleteCustomTour(item.id);
-          uni.showToast({ title: '已删除' });
-          loadData();
+          const apiRes = await deleteCustomTour(item.id);
+          if (apiRes.success) {
+            uni.showToast({ title: '已删除' });
+            loadData();
+          } else {
+            uni.showToast({ title: apiRes.message || '删除失败', icon: 'none' });
+          }
         } catch (error) {
           console.error(error);
         }

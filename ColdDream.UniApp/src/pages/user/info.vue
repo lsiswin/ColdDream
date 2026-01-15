@@ -56,18 +56,23 @@ const save = async () => {
   }
   
   try {
-    await updateProfile(form.value);
-    // Update local store
-    authStore.setUser({
-      ...user.value!,
-      nickName: form.value.nickName,
-      avatarUrl: form.value.avatarUrl
-    });
+    const res = await updateProfile(form.value);
     
-    uni.showToast({ title: '保存成功' });
-    setTimeout(() => {
-      uni.navigateBack();
-    }, 1500);
+    if (res.success) {
+      // Update local store
+      authStore.setUser({
+        ...user.value!,
+        nickName: form.value.nickName,
+        avatarUrl: form.value.avatarUrl
+      });
+      
+      uni.showToast({ title: '保存成功' });
+      setTimeout(() => {
+        uni.navigateBack();
+      }, 1500);
+    } else {
+      uni.showToast({ title: res.message || '保存失败', icon: 'none' });
+    }
   } catch (error) {
     console.error(error);
   }

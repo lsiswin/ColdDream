@@ -36,7 +36,10 @@ onMounted(() => {
 
 const loadData = async () => {
   try {
-    list.value = await getMyCoupons();
+    const res = await getMyCoupons();
+    if (res.success) {
+      list.value = res.data;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -44,9 +47,13 @@ const loadData = async () => {
 
 const getTestCoupon = async () => {
   try {
-    await issueTestCoupon();
-    uni.showToast({ title: '领取成功' });
-    loadData();
+    const res = await issueTestCoupon();
+    if (res.success) {
+      uni.showToast({ title: '领取成功' });
+      loadData();
+    } else {
+      uni.showToast({ title: res.message || '领取失败', icon: 'none' });
+    }
   } catch (error) {
     console.error(error);
   }

@@ -16,65 +16,65 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterDto model)
+    public async Task<ApiResponse<AuthResponseDto>> Register(RegisterDto model)
     {
         var result = await _authService.RegisterAsync(model);
         if (result == null)
-            return BadRequest("Registration failed");
-        return Ok(result);
+            return ApiResponse<AuthResponseDto>.Fail("Registration failed");
+        return ApiResponse<AuthResponseDto>.Ok(result);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginDto model)
+    public async Task<ApiResponse<AuthResponseDto>> Login(LoginDto model)
     {
         var result = await _authService.LoginAsync(model);
         if (result == null)
-            return Unauthorized("Invalid credentials");
-        return Ok(result);
+            return ApiResponse<AuthResponseDto>.Fail("Invalid credentials");
+        return ApiResponse<AuthResponseDto>.Ok(result);
     }
 
     [HttpPost("wechat-login")]
-    public async Task<IActionResult> WeChatLogin(WeChatLoginDto model)
+    public async Task<ApiResponse<AuthResponseDto>> WeChatLogin(WeChatLoginDto model)
     {
         var result = await _authService.WeChatLoginAsync(model);
         if (result == null)
-            return BadRequest("WeChat login failed");
-        return Ok(result);
+            return ApiResponse<AuthResponseDto>.Fail("WeChat login failed");
+        return ApiResponse<AuthResponseDto>.Ok(result);
     }
 
     [HttpPost("guest-login")]
-    public async Task<IActionResult> GuestLogin()
+    public async Task<ApiResponse<AuthResponseDto>> GuestLogin()
     {
         var result = await _authService.GuestLoginAsync();
         if (result == null)
-            return BadRequest("Guest login failed");
-        return Ok(result);
+            return ApiResponse<AuthResponseDto>.Fail("Guest login failed");
+        return ApiResponse<AuthResponseDto>.Ok(result);
     }
 
     [HttpPost("profile")]
-    public async Task<IActionResult> UpdateProfile(UpdateProfileDto model)
+    public async Task<ApiResponse<object>> UpdateProfile(UpdateProfileDto model)
     {
         // For simplicity, we assume the user is authenticated and we get the ID from claims
         // But for the profile completion flow, we might need to pass the ID or use the token if already issued
         // Let's assume the token is issued and we get the ID from claims
         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<object>.Fail("Unauthorized");
 
         var result = await _authService.UpdateProfileAsync(Guid.Parse(userId), model);
         if (!result)
-            return BadRequest("Profile update failed");
-        return Ok(new { success = true });
+            return ApiResponse<object>.Fail("Profile update failed");
+        return ApiResponse<object>.Ok(new { success = true });
     }
 
     [HttpGet("me")]
-    public async Task<IActionResult> GetProfile()
+    public async Task<ApiResponse<UserProfileDto>> GetProfile()
     {
         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<UserProfileDto>.Fail("Unauthorized");
 
         var profile = await _authService.GetProfileAsync(Guid.Parse(userId));
-        if (profile == null) return NotFound();
+        if (profile == null) return ApiResponse<UserProfileDto>.Fail("Profile not found");
 
-        return Ok(profile);
+        return ApiResponse<UserProfileDto>.Ok(profile);
     }
 }

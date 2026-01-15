@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 export interface Guide {
     id: string;
@@ -16,21 +16,21 @@ export interface Guide {
 }
 
 export const getMyGuides = () => {
-    return request<Guide[]>({
+    return request<ApiResponse<Guide[]>>({
         url: '/guide/my',
         method: 'GET'
     });
 };
 
 export const getGuideById = (id: string) => {
-    return request<Guide>({
+    return request<ApiResponse<Guide>>({
         url: `/guide/${id}`,
         method: 'GET'
     });
 };
 
 export const createGuide = (data: Partial<Guide>) => {
-    return request<Guide>({
+    return request<ApiResponse<Guide>>({
         url: '/guide',
         method: 'POST',
         data
@@ -38,7 +38,7 @@ export const createGuide = (data: Partial<Guide>) => {
 };
 
 export const updateGuide = (id: string, data: Partial<Guide>) => {
-    return request({
+    return request<ApiResponse<any>>({
         url: `/guide/${id}`,
         method: 'PUT',
         data
@@ -46,7 +46,7 @@ export const updateGuide = (id: string, data: Partial<Guide>) => {
 };
 
 export const deleteGuide = (id: string) => {
-    return request({
+    return request<ApiResponse<any>>({
         url: `/guide/${id}`,
         method: 'DELETE'
     });

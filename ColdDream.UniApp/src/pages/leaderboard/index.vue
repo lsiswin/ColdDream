@@ -33,7 +33,10 @@ const routes = ref<TourRoute[]>([]);
 
 const loadData = async () => {
   try {
-    routes.value = await getTopRoutes(20);
+    const res = await getTopRoutes(20);
+    if (res.success) {
+      routes.value = res.data;
+    }
   } catch (error) {
     console.error(error);
   }

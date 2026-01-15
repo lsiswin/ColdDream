@@ -1,8 +1,10 @@
 using ColdDream.Api.Models;
 using ColdDream.Api.Services;
+using ColdDream.Api.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using AutoMapper;
 
 namespace ColdDream.Api.Controllers;
 
@@ -11,14 +13,16 @@ namespace ColdDream.Api.Controllers;
 public class InspirationController : ControllerBase
 {
     private readonly IInspirationService _inspirationService;
+    private readonly IMapper _mapper;
 
-    public InspirationController(IInspirationService inspirationService)
+    public InspirationController(IInspirationService inspirationService, IMapper mapper)
     {
         _inspirationService = inspirationService;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetList()
+    public async Task<ApiResponse<IEnumerable<InspirationDto>>> GetList()
     {
         Guid? userId = null;
         var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -28,43 +32,45 @@ public class InspirationController : ControllerBase
         }
 
         var list = await _inspirationService.GetInspirationsAsync(userId);
-        return Ok(list.OrderByDescending(x => x.CreatedAt));
+        var dtos = _mapper.Map<IEnumerable<InspirationDto>>(list.OrderByDescending(x => x.CreatedAt));
+        return ApiResponse<IEnumerable<InspirationDto>>.Ok(dtos);
     }
 
     [HttpGet("collected")]
     [Authorize]
-    public async Task<IActionResult> GetCollected()
+    public async Task<ApiResponse<IEnumerable<InspirationDto>>> GetCollected()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<IEnumerable<InspirationDto>>.Fail("Unauthorized");
 
         var list = await _inspirationService.GetCollectedInspirationsAsync(Guid.Parse(userId));
-        return Ok(list.OrderByDescending(x => x.CreatedAt));
+        var dtos = _mapper.Map<IEnumerable<InspirationDto>>(list.OrderByDescending(x => x.CreatedAt));
+        return ApiResponse<IEnumerable<InspirationDto>>.Ok(dtos);
     }
 
     [HttpPost("{id}/like")]
     [Authorize]
-    public async Task<IActionResult> Like(Guid id)
+    public async Task<ApiResponse<object>> Like(Guid id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<object>.Fail("Unauthorized");
 
         var result = await _inspirationService.ToggleLikeAsync(id, Guid.Parse(userId));
-        if (result == null) return NotFound();
+        if (result == null) return ApiResponse<object>.Fail("Inspiration not found");
         
-        return Ok(new { likes = result.Likes, isLiked = result.IsLiked });
+        return ApiResponse<object>.Ok(new { likes = result.Likes, isLiked = result.IsLiked });
     }
 
     [HttpPost("{id}/collect")]
     [Authorize]
-    public async Task<IActionResult> Collect(Guid id)
+    public async Task<ApiResponse<object>> Collect(Guid id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<object>.Fail("Unauthorized");
 
         var result = await _inspirationService.ToggleCollectAsync(id, Guid.Parse(userId));
-        if (result == null) return NotFound();
+        if (result == null) return ApiResponse<object>.Fail("Inspiration not found");
 
-        return Ok(new { collects = result.Collects, isCollected = result.IsCollected });
+        return ApiResponse<object>.Ok(new { collects = result.Collects, isCollected = result.IsCollected });
     }
 }

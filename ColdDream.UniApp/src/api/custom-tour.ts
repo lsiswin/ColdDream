@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 export interface CustomTourRequest {
     destination: string;
@@ -26,7 +26,7 @@ export interface CustomTour {
 }
 
 export const createCustomTour = (data: CustomTourRequest) => {
-    return request<CustomTour>({
+    return request<ApiResponse<CustomTour>>({
         url: '/customtour',
         method: 'POST',
         data
@@ -34,28 +34,28 @@ export const createCustomTour = (data: CustomTourRequest) => {
 };
 
 export const getMyCustomTours = () => {
-    return request<CustomTour[]>({
+    return request<ApiResponse<CustomTour[]>>({
         url: '/customtour/my',
         method: 'GET'
     });
 };
 
 export const getCustomTourById = (id: string) => {
-    return request<CustomTour>({
+    return request<ApiResponse<CustomTour>>({
         url: `/customtour/${id}`,
         method: 'GET'
     });
 };
 
 export const cancelCustomTour = (id: string) => {
-    return request({
+    return request<ApiResponse<any>>({
         url: `/customtour/${id}/cancel`,
         method: 'POST'
     });
 };
 
 export const deleteCustomTour = (id: string) => {
-    return request({
+    return request<ApiResponse<any>>({
         url: `/customtour/${id}`,
         method: 'DELETE'
     });

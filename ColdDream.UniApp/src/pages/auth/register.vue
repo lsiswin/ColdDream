@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 const username = ref('');
 const email = ref('');
@@ -39,7 +39,7 @@ const handleRegister = async () => {
   }
   
   try {
-    const res = await request<any>({
+    const res = await request<ApiResponse<any>>({
       url: '/auth/register',
       method: 'POST',
       data: {
@@ -50,13 +50,16 @@ const handleRegister = async () => {
       }
     });
     
-    if (res && res.token) {
-      authStore.setToken(res.token);
-      authStore.setUser({ username: res.username, email: res.email });
+    if (res.success && res.data && res.data.token) {
+      const data = res.data;
+      authStore.setToken(data.token);
+      authStore.setUser({ username: data.username, email: data.email });
       uni.showToast({ title: '注册成功' });
       setTimeout(() => {
         uni.navigateBack(); // Or go to home
       }, 1500);
+    } else {
+      uni.showToast({ title: res.message || '注册失败', icon: 'none' });
     }
   } catch (error) {
     console.error(error);

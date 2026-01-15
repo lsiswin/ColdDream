@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 export interface Inspiration {
     id: string;
@@ -14,28 +14,28 @@ export interface Inspiration {
 }
 
 export const getInspirations = () => {
-    return request<Inspiration[]>({
+    return request<ApiResponse<Inspiration[]>>({
         url: '/inspiration',
         method: 'GET',
     });
 };
 
 export const likeInspiration = (id: string) => {
-    return request<{ likes: number, isLiked: boolean }>({
+    return request<ApiResponse<{ likes: number, isLiked: boolean }>>({
         url: `/inspiration/${id}/like`,
         method: 'POST',
     });
 };
 
 export const collectInspiration = (id: string) => {
-    return request<{ collects: number, isCollected: boolean }>({
+    return request<ApiResponse<{ collects: number, isCollected: boolean }>>({
         url: `/inspiration/${id}/collect`,
         method: 'POST',
     });
 };
 
 export const getCollectedInspirations = () => {
-    return request<Inspiration[]>({
+    return request<ApiResponse<Inspiration[]>>({
         url: '/inspiration/collected',
         method: 'GET'
     });

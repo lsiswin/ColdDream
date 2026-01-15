@@ -1,3 +1,5 @@
+using AutoMapper;
+using ColdDream.Api.DTOs;
 using ColdDream.Api.Models;
 using ColdDream.Api.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -11,45 +13,51 @@ namespace ColdDream.Api.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _productService;
+    private readonly IMapper _mapper;
 
-    public ProductsController(IProductService productService)
+    public ProductsController(IProductService productService, IMapper mapper)
     {
         _productService = productService;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetProducts()
+    public async Task<ApiResponse<IEnumerable<ProductDto>>> GetProducts()
     {
         var products = await _productService.GetAllProductsAsync();
-        return Ok(products);
+        var productDtos = _mapper.Map<IEnumerable<ProductDto>>(products);
+        return ApiResponse<IEnumerable<ProductDto>>.Ok(productDtos);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetProduct(Guid id)
+    public async Task<ApiResponse<ProductDto>> GetProduct(Guid id)
     {
         var product = await _productService.GetProductByIdAsync(id);
-        if (product == null) return NotFound();
-        return Ok(product);
+        if (product == null) return ApiResponse<ProductDto>.Fail("Product not found");
+        return ApiResponse<ProductDto>.Ok(_mapper.Map<ProductDto>(product));
     }
 
     [HttpPost]
     [Authorize] // Admin only
-    public async Task<IActionResult> CreateProduct(Product product)
+    public async Task<ApiResponse<ProductDto>> CreateProduct(CreateProductDto createProductDto)
     {
+        var product = _mapper.Map<Product>(createProductDto);
         var createdProduct = await _productService.CreateProductAsync(product);
-        return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+        var productDto = _mapper.Map<ProductDto>(createdProduct);
+        
+        return ApiResponse<ProductDto>.Ok(productDto, "Product created");
     }
 
     [HttpPost("{id}/buy")]
     [Authorize]
-    public async Task<IActionResult> BuyProduct(Guid id)
+    public async Task<ApiResponse<string>> BuyProduct(Guid id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<string>.Fail("Unauthorized");
 
         var success = await _productService.BuyProductAsync(Guid.Parse(userId), id);
-        if (!success) return BadRequest("Purchase failed. Check points or stock.");
+        if (!success) return ApiResponse<string>.Fail("Purchase failed. Check points or stock.");
 
-        return Ok("Purchase successful");
+        return ApiResponse<string>.Ok("Purchase successful");
     }
 }

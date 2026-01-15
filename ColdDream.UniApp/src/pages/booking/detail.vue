@@ -57,6 +57,10 @@
         <text>管家服务费</text>
         <text>¥{{ booking.butler.price }}</text>
       </view>
+      <view class="price-row" v-if="booking.discountAmount && booking.discountAmount > 0">
+        <text>优惠金额</text>
+        <text style="color: #ff5a5f;">-¥{{ booking.discountAmount }}</text>
+      </view>
       <view class="total-row">
         <text>实付金额</text>
         <text class="total-price">¥{{ booking.totalPrice }}</text>
@@ -98,7 +102,12 @@ onLoad((options: any) => {
 
 const loadDetail = async (id: string) => {
   try {
-    booking.value = await getBookingById(id);
+    const res = await getBookingById(id);
+    if (res.success && res.data) {
+      booking.value = res.data;
+    } else {
+      uni.showToast({ title: res.message || '获取详情失败', icon: 'none' });
+    }
   } catch (error) {
     console.error(error);
     uni.showToast({ title: '获取详情失败', icon: 'none' });
@@ -151,9 +160,13 @@ const handleCancel = async () => {
     success: async (res) => {
       if (res.confirm) {
         try {
-          await cancelBooking(booking.value!.id);
-          uni.showToast({ title: '取消成功' });
-          loadDetail(booking.value!.id);
+          const apiRes = await cancelBooking(booking.value!.id);
+          if (apiRes.success) {
+            uni.showToast({ title: '取消成功' });
+            loadDetail(booking.value!.id);
+          } else {
+            uni.showToast({ title: apiRes.message || '取消失败', icon: 'none' });
+          }
         } catch (error) {
           console.error(error);
         }
@@ -170,11 +183,15 @@ const handleDelete = async () => {
     success: async (res) => {
       if (res.confirm) {
         try {
-          await deleteBooking(booking.value!.id);
-          uni.showToast({ title: '删除成功' });
-          setTimeout(() => {
-            uni.navigateBack();
-          }, 1500);
+          const apiRes = await deleteBooking(booking.value!.id);
+          if (apiRes.success) {
+            uni.showToast({ title: '删除成功' });
+            setTimeout(() => {
+              uni.navigateBack();
+            }, 1500);
+          } else {
+            uni.showToast({ title: apiRes.message || '删除失败', icon: 'none' });
+          }
         } catch (error) {
           console.error(error);
         }

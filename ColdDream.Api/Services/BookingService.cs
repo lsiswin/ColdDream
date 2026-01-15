@@ -64,6 +64,7 @@ public class BookingService : IBookingService
                     
                     // Mark coupon as used
                     coupon.IsUsed = true;
+                    _context.Coupons.Update(coupon);
                 }
             }
         }

@@ -3,6 +3,8 @@ using ColdDream.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using ColdDream.Api.DTOs;
+using AutoMapper;
 
 namespace ColdDream.Api.Controllers;
 
@@ -12,61 +14,66 @@ namespace ColdDream.Api.Controllers;
 public class BookingController : ControllerBase
 {
     private readonly IBookingService _bookingService;
+    private readonly IMapper _mapper;
 
-    public BookingController(IBookingService bookingService)
+    public BookingController(IBookingService bookingService, IMapper mapper)
     {
         _bookingService = bookingService;
+        _mapper = mapper;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Booking booking)
+    public async Task<ApiResponse<BookingDto>> Create(CreateBookingDto bookingDto)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<BookingDto>.Fail("Unauthorized");
 
+        var booking = _mapper.Map<Booking>(bookingDto);
         var result = await _bookingService.CreateBookingAsync(Guid.Parse(userId), booking);
-        return Ok(result);
+        var dto = _mapper.Map<BookingDto>(result);
+        return ApiResponse<BookingDto>.Ok(dto);
     }
 
     [HttpGet("my")]
-    public async Task<IActionResult> GetMyBookings()
+    public async Task<ApiResponse<IEnumerable<BookingDto>>> GetMyBookings()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<IEnumerable<BookingDto>>.Fail("Unauthorized");
 
         var result = await _bookingService.GetUserBookingsAsync(Guid.Parse(userId));
-        return Ok(result);
+        var dtos = _mapper.Map<IEnumerable<BookingDto>>(result);
+        return ApiResponse<IEnumerable<BookingDto>>.Ok(dtos);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<ApiResponse<BookingDto>> GetById(Guid id)
     {
         var result = await _bookingService.GetBookingByIdAsync(id);
-        if (result == null) return NotFound();
-        return Ok(result);
+        if (result == null) return ApiResponse<BookingDto>.Fail("Booking not found");
+        return ApiResponse<BookingDto>.Ok(_mapper.Map<BookingDto>(result));
     }
 
     [HttpPost("{id}/cancel")]
-    public async Task<IActionResult> Cancel(Guid id)
+    public async Task<ApiResponse<object>> Cancel(Guid id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<object>.Fail("Unauthorized");
 
         var result = await _bookingService.CancelBookingAsync(id, Guid.Parse(userId));
-        if (!result) return BadRequest("Cancel failed");
+        if (!result) return ApiResponse<object>.Fail("Cancel failed");
         
-        return Ok(new { success = true });
+        return ApiResponse<object>.Ok(new { success = true });
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<ApiResponse<object>> Delete(Guid id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) return Unauthorized();
+        if (userId == null) return ApiResponse<object>.Fail("Unauthorized");
 
         var result = await _bookingService.DeleteBookingAsync(id, Guid.Parse(userId));
-        if (!result) return BadRequest("Delete failed");
+        if (!result) return ApiResponse<object>.Fail("Delete failed");
         
-        return Ok(new { success = true });
+        return ApiResponse<object>.Ok(new { success = true });
     }
 }

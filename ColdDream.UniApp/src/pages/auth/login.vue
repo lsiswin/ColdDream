@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
-import { request } from '@/utils/request';
+import { request, type ApiResponse } from '@/utils/request';
 
 const authStore = useAuthStore();
 
@@ -53,7 +53,7 @@ const handleGetPhoneNumber = (e: any) => {
       success: async (loginRes) => {
         if (loginRes.code) {
           try {
-            const res = await request<any>({
+            const res = await request<ApiResponse<any>>({
               url: '/auth/wechat-login',
               method: 'POST',
               data: {
@@ -62,21 +62,27 @@ const handleGetPhoneNumber = (e: any) => {
               }
             });
             
-            authStore.setToken(res.token);
-            
-            if (res.isNewUser) {
-              uni.hideLoading();
-              uni.navigateTo({ url: '/pages/auth/profile' });
+            if (res.success) {
+              const data = res.data;
+              authStore.setToken(data.token);
+              
+              if (data.isNewUser) {
+                uni.hideLoading();
+                uni.navigateTo({ url: '/pages/auth/profile' });
+              } else {
+                authStore.setUser({
+                  username: data.username,
+                  email: data.email
+                });
+                uni.hideLoading();
+                uni.showToast({ title: '登录成功' });
+                setTimeout(() => {
+                  uni.navigateBack();
+                }, 1500);
+              }
             } else {
-              authStore.setUser({
-                username: res.username,
-                email: res.email
-              });
               uni.hideLoading();
-              uni.showToast({ title: '登录成功' });
-              setTimeout(() => {
-                uni.navigateBack();
-              }, 1500);
+              uni.showToast({ title: res.message || '登录失败', icon: 'none' });
             }
           } catch (error) {
             console.error(error);
@@ -100,23 +106,29 @@ const handleGetPhoneNumber = (e: any) => {
 const handleGuestLogin = async () => {
   uni.showLoading({ title: '登录中...' });
   try {
-    const res = await request<any>({
+    const res = await request<ApiResponse<any>>({
       url: '/auth/guest-login',
       method: 'POST'
     });
     
-    authStore.setToken(res.token);
-    authStore.setUser({
-      username: res.username,
-      email: res.email,
-      nickName: '游客测试员'
-    });
-    
-    uni.hideLoading();
-    uni.showToast({ title: '登录成功' });
-    setTimeout(() => {
-      uni.navigateBack();
-    }, 1500);
+    if (res.success) {
+      const data = res.data;
+      authStore.setToken(data.token);
+      authStore.setUser({
+        username: data.username,
+        email: data.email,
+        nickName: '游客测试员'
+      });
+      
+      uni.hideLoading();
+      uni.showToast({ title: '登录成功' });
+      setTimeout(() => {
+        uni.navigateBack();
+      }, 1500);
+    } else {
+      uni.hideLoading();
+      uni.showToast({ title: res.message || '登录失败', icon: 'none' });
+    }
   } catch (error) {
     console.error(error);
     uni.hideLoading();

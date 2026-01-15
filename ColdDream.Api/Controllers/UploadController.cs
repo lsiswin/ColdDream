@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ColdDream.Api.DTOs;
 
 namespace ColdDream.Api.Controllers;
 
@@ -15,10 +16,10 @@ public class UploadController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Upload(IFormFile file)
+    public async Task<ApiResponse<object>> Upload(IFormFile file)
     {
         if (file == null || file.Length == 0)
-            return BadRequest("No file uploaded.");
+            return ApiResponse<object>.Fail("No file uploaded.");
 
         string webRootPath = _environment.WebRootPath ?? Path.Combine(_environment.ContentRootPath, "wwwroot");
         var uploadsFolder = Path.Combine(webRootPath, "uploads");
@@ -36,6 +37,6 @@ public class UploadController : ControllerBase
         }
 
         var url = $"/uploads/{uniqueFileName}";
-        return Ok(new { url });
+        return ApiResponse<object>.Ok(new { url });
     }
 }
