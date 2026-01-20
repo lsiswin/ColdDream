@@ -1,8 +1,0 @@
-D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net10.0\ColdDream.Api.csproj.AssemblyReference.cache
-D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net10.0\rpswa.dswa.cache.json
-D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net10.0\ColdDream.Api.GeneratedMSBuildEditorConfig.editorconfig
-D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net10.0\ColdDream.Api.AssemblyInfoInputs.cache
-D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net10.0\ColdDream.Api.AssemblyInfo.cs
-D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net10.0\ColdDream.Api.csproj.CoreCompileInputs.cache
-D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net10.0\ColdDream.Api.MvcApplicationPartsAssemblyInfo.cs
-D:\Cshrap\ColdDream\ColdDream.Api\obj\Debug\net10.0\ColdDream.Api.MvcApplicationPartsAssemblyInfo.cache
