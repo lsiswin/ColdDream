@@ -1,123 +1,119 @@
-# ColdDream Travel App (寒梦旅游)
+# ColdDream - 全栈旅游预订平台
 
-这是一个基于 **.NET 8 Web API** 和 **Uni-app (Vue 3 + TypeScript)** 开发的全栈旅游预约系统。旨在提供流畅的旅游路线浏览、管家预约、攻略分享及积分商城体验。
+ColdDream 是一个现代化的全栈旅游预订平台，旨在为用户提供从旅行灵感发现、路线规划到在线预订的一站式服务。项目集成了 Web 端、移动端 (UniApp) 以及强大的后端 API 服务。
 
-## 🛠 技术栈
+## 🌟 核心功能
 
-### 后端 (Backend)
-- **框架**: .NET 8 Web API
-- **数据库**: SQL Server (Entity Framework Core)
-- **缓存**: Redis (用于排行榜和热点数据)
-- **认证**: JWT (JSON Web Token), 微信小程序登录
-- **日志**: Serilog
-- **API 文档**: Swagger / OpenAPI
+### 🗺️ 旅游路线 (Tours)
+- **精选路线**: 浏览经过精心策划的旅游路线，支持按目的地、价格、热度筛选。
+- **路线详情**: 查看详细的每日行程安排、费用包含说明及预订须知。
+- **智能搜索**: 快速查找心仪的旅游目的地。
 
-### 前端 (Frontend)
-- **框架**: Uni-app (支持 H5, 微信小程序, App)
-- **核心库**: Vue 3 (Composition API), TypeScript
+### 📚 攻略社区 (Guide & Community)
+- **达人攻略**: 浏览旅游达人分享的深度游记和实用指南。
+- **发布与分享**: 用户可以发布自己的旅行攻略，支持图文混排。
+- **互动交流**: 支持查看和筛选社区内容。
+
+### 💡 旅行灵感 (Inspiration)
+- **灵感瀑布流**: 探索高质量的旅行美图和短内容。
+- **社交互动**: 支持点赞、收藏喜欢的灵感内容。
+- **内容发布**: 分享你的旅行瞬间。
+
+### 📅 在线预订 (Booking)
+- **便捷下单**: 选择出行日期、人数，系统自动计算价格。
+- **订单管理**: 完整的订单状态追踪（待确认、已支付、已完成、已取消）。
+- **优惠系统**: 支持使用优惠券抵扣金额。
+
+### ✨ 私人定制 (Custom Tour)
+- **个性化需求**: 提交目的地、预算、天数等需求，获取专属定制方案。
+- **进度追踪**: 实时查看定制需求的受理状态。
+
+### 👤 用户中心 (Dashboard)
+- **个人管理**: 修改个人资料、头像。
+- **我的订单**: 统一管理所有预订订单。
+- **我的收藏**: 查看收藏的路线和灵感。
+
+---
+
+## 🛠️ 技术栈
+
+### 后端服务 (ColdDream.Api)
+- **框架**: .NET 8.0 (ASP.NET Core Web API)
+- **数据库**: SQL Server (Entity Framework Core 8.0)
+- **认证**: JWT Bearer + ASP.NET Core Identity
+- **缓存**: Redis
+- **主要库**: 
+  - `AutoMapper`: 对象映射
+  - `Serilog`: 结构化日志记录
+  - `Swashbuckle`: Swagger API 文档生成
+
+### Web 前端 (ColdDream.Web)
+- **框架**: Vue 3 (Composition API) + TypeScript
 - **构建工具**: Vite
 - **状态管理**: Pinia
-- **样式**: SCSS
-- **网络请求**: 封装的 Promise 请求库 (支持拦截器)
+- **路由**: Vue Router
+- **UI 框架**: Tailwind CSS
+- **HTTP**: Axios
 
-## ✨ 主要功能
+### 移动端 (ColdDream.UniApp)
+- **框架**: UniApp (基于 Vue 3 + TypeScript)
+- **平台**: 支持编译为微信小程序、H5 及 App
 
-### 1. 用户系统
-- **注册/登录**: 支持账号密码登录、微信一键授权登录、游客模式 (Guest Login)。
-- **个人中心**:
-  - 显示用户头像、昵称、积分、会员等级。
-  - **编辑资料**: 支持修改头像 (上传) 和昵称。
-  - **系统设置**: 账号安全、消息通知、通用设置、退出登录。
-- **积分体系**: 注册、发布攻略、预订均可获得积分，积分可用于商城兑换。
-
-### 2. 旅游服务
-- **路线浏览**: 精选旅游路线展示，支持按价格、热度排序。
-- **路线详情**: 包含行程介绍、费用说明、预订须知。
-- **私密路线**: 特定路线仅限特定等级用户或通过密码访问。
-- **管家服务**: 浏览金牌管家，查看管家详情并进行预约。
-- **在线预订**:
-  - 选择路线、日期、出行人数。
-  - **优惠券**: 下单时可选择可用优惠券抵扣金额。
-  - 订单管理 (全部、待支付、已完成、已取消)。
-
-### 3. 内容社区 (攻略/灵感)
-- **攻略分享**: 用户可发布图文攻略，支持**上传封面图片**。
-- **灵感发现**: 瀑布流展示用户发布的精彩瞬间。
-- **互动**: 点赞、收藏功能。
-
-### 4. 营销活动
-- **优惠券系统**:
-  - 用户可领取优惠券 (测试券)。
-  - 订单结算时自动计算折扣。
-- **积分商城**: 使用积分兑换周边商品或虚拟服务。
-- **排行榜**: 展示活跃用户或热门路线排行。
-
-### 5. 其他功能
-- **联系客服**: 一键拨打客服电话。
-- **动态轮播图**: 首页顶部展示热门活动。
-- **图片上传**: 支持本地图片上传至服务器 (HTTPS)。
+---
 
 ## 🚀 快速开始
 
-### 后端启动
-1. 进入 `ColdDream.Api` 目录。
-2. 配置 `appsettings.json` 中的数据库连接字符串 (`DefaultConnection`) 和 Redis 连接 (`Redis`)。
-3. 运行数据库迁移:
-   ```bash
-   dotnet ef database update
-   ```
-4. 启动服务:
-   ```bash
-   dotnet run
-   ```
-   *服务默认运行在 `https://localhost:7282` 和 `http://localhost:5116`*
+### 前置要求
+- Node.js 18+
+- .NET 8.0 SDK
+- SQL Server
+- Redis (可选)
 
-### 前端启动
-1. 进入 `ColdDream.UniApp` 目录。
-2. 安装依赖:
-   ```bash
-   npm install
-   ```
-3. 启动 H5 开发服务器:
-   ```bash
-   npm run dev:h5
-   ```
-4. 或在 HBuilderX 中打开项目运行到微信小程序模拟器。
+### 1. 后端启动
+```bash
+cd ColdDream.Api
+# 更新数据库
+dotnet ef database update
+# 启动服务
+dotnet run
+```
+服务默认运行在 `https://localhost:7001` (HTTPS) 或 `http://localhost:5000` (HTTP)。
 
-## 📂 目录结构
+### 2. Web 前端启动
+```bash
+cd ColdDream.Web
+# 安装依赖
+npm install
+# 启动开发服务器
+npm run dev
+```
+访问 `http://localhost:5173` 查看页面。
+
+### 3. 移动端启动
+使用 HBuilderX 打开 `ColdDream.UniApp` 目录进行运行和调试。
+
+---
+
+## � 目录结构
 
 ```
 ColdDream/
-├── ColdDream.Api/          # .NET 8 后端项目
+├── ColdDream.Api/          # 后端 API 项目
 │   ├── Controllers/        # API 控制器
 │   ├── Models/             # 实体模型
-│   ├── Services/           # 业务逻辑层
 │   ├── Data/               # 数据库上下文
-│   └── wwwroot/            # 静态文件 (上传的图片等)
+│   └── Services/           # 业务逻辑服务
 │
-├── ColdDream.UniApp/       # Uni-app 前端项目
+├── ColdDream.Web/          # Web 前端项目
 │   ├── src/
-│   │   ├── api/            # API 接口封装
-│   │   ├── pages/          # 页面文件
-│   │   ├── static/         # 静态资源
+│   │   ├── api/            # API 接口定义
+│   │   ├── views/          # 页面组件
 │   │   ├── stores/         # Pinia 状态管理
-│   │   └── utils/          # 工具函数
-│   └── pages.json          # 页面路由配置
+│   │   └── router/         # 路由配置
 │
-└── README.md               # 项目说明文档
+└── ColdDream.UniApp/       # 移动端项目
 ```
 
-## 📝 最近更新
-- **2026-01-08**:
-  - 新增 **优惠券系统** (后端模型 + 前端领取与使用)。
-  - 完善 **个人中心** (编辑资料、系统设置、退出登录)。
-  - 实现 **图片上传** 功能 (攻略封面上传)，修复 HTTPS 兼容性问题。
-  - 新增 **联系客服** 页面。
+## � 许可证
 
-## ⚠️ 注意事项
-- 本项目后端开启了静态文件服务 (`UseStaticFiles`) 以支持图片访问。
-- 前后端交互已配置 CORS 允许跨域。
-- 微信小程序开发时，请确保后端启用 HTTPS，并在开发者工具中开启"不校验合法域名" (开发阶段)。
-
----
-Copyright © 2026 ColdDream. All Rights Reserved.
+MIT License
