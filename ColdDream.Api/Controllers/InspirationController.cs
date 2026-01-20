@@ -48,6 +48,24 @@ public class InspirationController : ControllerBase
         return ApiResponse<IEnumerable<InspirationDto>>.Ok(dtos);
     }
 
+    [HttpPost]
+    [Authorize]
+    public async Task<ApiResponse<InspirationDto>> Create(CreateInspirationDto dto)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null) return ApiResponse<InspirationDto>.Fail("Unauthorized");
+
+        var inspiration = await _inspirationService.CreateAsync(Guid.Parse(userId), dto.Description, dto.ImageUrl);
+        
+        // Use Mapper if available or manual mapping
+        var resultDto = _mapper.Map<InspirationDto>(inspiration);
+        // Ensure user info is populated if mapper doesn't handle it fully from just Inspiration entity (which has only UserId)
+        // Ideally Service should return a rich model or we load user here.
+        // For simplicity, let's rely on Mapper configuration or minimal return
+        
+        return ApiResponse<InspirationDto>.Ok(resultDto);
+    }
+
     [HttpPost("{id}/like")]
     [Authorize]
     public async Task<ApiResponse<object>> Like(Guid id)

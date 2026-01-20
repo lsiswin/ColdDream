@@ -1879,6 +1879,13 @@
         "additionalProperties": false
       },
       "CreateBookingDto": {
+        "required": [
+          "bookingDate",
+          "contactName",
+          "contactPhone",
+          "tourRouteId",
+          "travelers"
+        ],
         "type": "object",
         "properties": {
           "tourRouteId": {
@@ -1895,16 +1902,21 @@
             "format": "date-time"
           },
           "travelers": {
+            "maximum": 100,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "contactName": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
           },
           "contactPhone": {
+            "maxLength": 20,
+            "minLength": 0,
             "type": "string",
-            "nullable": true
+            "format": "tel"
           },
           "couponId": {
             "type": "string",

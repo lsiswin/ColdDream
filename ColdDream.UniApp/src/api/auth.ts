@@ -23,3 +23,26 @@ export const updateProfile = (data: { nickName: string; avatarUrl?: string }) =>
         data
     });
 };
+
+export interface LoginResponse {
+    token: string;
+    username: string;
+    email: string;
+    points: number;
+    isNewUser?: boolean;
+}
+
+export const wechatLogin = (data: { loginCode: string; phoneCode: string }) => {
+    return request<ApiResponse<LoginResponse>>({
+        url: '/auth/wechat-login',
+        method: 'POST',
+        data
+    });
+};
+
+export const guestLogin = () => {
+    return request<ApiResponse<LoginResponse>>({
+        url: '/auth/guest-login',
+        method: 'POST'
+    });
+};

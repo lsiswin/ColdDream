@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
-import { request, type ApiResponse } from '@/utils/request';
+import { wechatLogin, guestLogin } from '@/api/auth';
 
 const authStore = useAuthStore();
 
@@ -53,13 +53,9 @@ const handleGetPhoneNumber = (e: any) => {
       success: async (loginRes) => {
         if (loginRes.code) {
           try {
-            const res = await request<ApiResponse<any>>({
-              url: '/auth/wechat-login',
-              method: 'POST',
-              data: {
-                loginCode: loginRes.code,
-                phoneCode: phoneCode
-              }
+            const res = await wechatLogin({
+              loginCode: loginRes.code,
+              phoneCode: phoneCode
             });
             
             if (res.success) {
@@ -71,9 +67,14 @@ const handleGetPhoneNumber = (e: any) => {
                 uni.navigateTo({ url: '/pages/auth/profile' });
               } else {
                 authStore.setUser({
+                  id: '', // UserProfile needs ID, but login might not return it fully structured yet. 
+                  // Ideally backend login response should match UserProfile or we fetch profile after login.
+                  // For now, let's map what we have.
                   username: data.username,
-                  email: data.email
-                });
+                  email: data.email,
+                  points: data.points
+                } as any); // Temporary cast until LoginResponse fully matches UserProfile or we fetch me
+                
                 uni.hideLoading();
                 uni.showToast({ title: '登录成功' });
                 setTimeout(() => {
@@ -106,19 +107,18 @@ const handleGetPhoneNumber = (e: any) => {
 const handleGuestLogin = async () => {
   uni.showLoading({ title: '登录中...' });
   try {
-    const res = await request<ApiResponse<any>>({
-      url: '/auth/guest-login',
-      method: 'POST'
-    });
+    const res = await guestLogin();
     
     if (res.success) {
       const data = res.data;
       authStore.setToken(data.token);
       authStore.setUser({
+        id: '',
         username: data.username,
         email: data.email,
-        nickName: '游客测试员'
-      });
+        nickName: '游客测试员',
+        points: data.points
+      } as any);
       
       uni.hideLoading();
       uni.showToast({ title: '登录成功' });

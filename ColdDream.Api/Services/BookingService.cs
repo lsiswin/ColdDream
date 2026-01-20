@@ -1,5 +1,6 @@
 using ColdDream.Api.Data;
 using ColdDream.Api.Models;
+using ColdDream.Api.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace ColdDream.Api.Services;
@@ -25,7 +26,7 @@ public class BookingService : IBookingService
     public async Task<Booking> CreateBookingAsync(Guid userId, Booking booking)
     {
         booking.UserId = userId;
-        booking.Status = "Confirmed"; // Auto-confirm since we skip payment
+        booking.Status = BookingStatus.Confirmed; // Auto-confirm since we skip payment
         booking.CreatedAt = DateTime.UtcNow;
         
         // Calculate price
@@ -102,12 +103,12 @@ public class BookingService : IBookingService
             return false;
         }
 
-        if (booking.Status == "Cancelled" || booking.Status == "Completed")
+        if (booking.Status == BookingStatus.Cancelled || booking.Status == BookingStatus.Completed)
         {
             return false;
         }
 
-        booking.Status = "Cancelled";
+        booking.Status = BookingStatus.Cancelled;
         await _context.SaveChangesAsync();
         return true;
     }
@@ -121,7 +122,7 @@ public class BookingService : IBookingService
         }
 
         // Only allow deleting cancelled or completed bookings
-        if (booking.Status != "Cancelled" && booking.Status != "Completed")
+        if (booking.Status != BookingStatus.Cancelled && booking.Status != BookingStatus.Completed)
         {
             return false;
         }

@@ -10,6 +10,7 @@ public interface IInspirationService
     Task<Inspiration?> ToggleLikeAsync(Guid id, Guid userId);
     Task<Inspiration?> ToggleCollectAsync(Guid id, Guid userId);
     Task<IEnumerable<Inspiration>> GetCollectedInspirationsAsync(Guid userId);
+    Task<Inspiration> CreateAsync(Guid userId, string description, string imageUrl);
 }
 
 public class InspirationService : IInspirationService
@@ -19,6 +20,21 @@ public class InspirationService : IInspirationService
     public InspirationService(AppDbContext context)
     {
         _context = context;
+    }
+
+    public async Task<Inspiration> CreateAsync(Guid userId, string description, string imageUrl)
+    {
+        var inspiration = new Inspiration
+        {
+            UserId = userId,
+            Description = description,
+            ImageUrl = imageUrl,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.Inspirations.Add(inspiration);
+        await _context.SaveChangesAsync();
+        return inspiration;
     }
 
     public async Task<IEnumerable<Inspiration>> GetInspirationsAsync(Guid? userId = null)

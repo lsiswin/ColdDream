@@ -85,6 +85,12 @@ public class CreateGuideDto
     public string? Budget { get; set; }
 }
 
+public class CreateInspirationDto
+{
+    public string Description { get; set; } = string.Empty;
+    public string ImageUrl { get; set; } = string.Empty;
+}
+
 public class InspirationDto
 {
     public Guid Id { get; set; }
