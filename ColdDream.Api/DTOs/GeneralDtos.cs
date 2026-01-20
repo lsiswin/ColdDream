@@ -116,6 +116,8 @@ public class TourRouteDto
     public string? Tags { get; set; }
     public string? ImageUrl { get; set; }
     public string? RouteMapUrl { get; set; }
+
+    public string? Duration { get; set; }
     public string? Itinerary { get; set; }
     public int Sales { get; set; }
     public DateTime CreatedAt { get; set; }

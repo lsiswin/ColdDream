@@ -287,26 +287,23 @@ const getStatusClass = (status: string) => {
 };
 
 const loadData = async () => {
-  if (activeTab.value === 'orders') {
-    try {
+  try {
+    if (activeTab.value === 'orders') {
       const res = await getMyBookings();
       if (res.success) bookings.value = res.data;
-    } catch (e) { console.error(e); }
-  } else if (activeTab.value === 'custom-tours') {
-    try {
+    } else if (activeTab.value === 'custom-tours') {
       const res = await getMyCustomTours();
       if (res.success) customTours.value = res.data;
-    } catch (e) { console.error(e); }
-  } else if (activeTab.value === 'coupons') {
-    try {
+    } else if (activeTab.value === 'coupons') {
       const res = await getMyCoupons();
       if (res.success) coupons.value = res.data;
-    } catch (e) { console.error(e); }
-  } else if (activeTab.value === 'favorites') {
-    try {
+    } else if (activeTab.value === 'favorites') {
       const res = await getCollectedInspirations();
       if (res.success) favorites.value = res.data;
-    } catch (e) { console.error(e); }
+    }
+  } catch (e) {
+    console.error(e);
+    // Could add a toast notification here
   }
 };
 
@@ -339,7 +336,11 @@ const handleUpdateProfile = async () => {
     if (res.success) {
       alert('资料更新成功');
       editingProfile.value = false;
-      // Ideally update store user data here
+      // Sync with local store
+      authStore.setUser({
+        ...authStore.user!,
+        username: profileForm.nickName // Note: API might need to return updated user object for full sync, but nickName maps to username here
+      });
     } else {
       alert(res.message);
     }

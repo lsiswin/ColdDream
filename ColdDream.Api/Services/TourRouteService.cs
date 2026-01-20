@@ -13,6 +13,11 @@ public class TourRouteService : ITourRouteService
         _unitOfWork = unitOfWork;
     }
 
+    public async Task<IEnumerable<TourRoute>> GetRoutesByCreatorAsync(Guid creatorId)
+    {
+        return await _unitOfWork.Repository<TourRoute>().FindAsync(r => r.CreatorId == creatorId);
+    }
+
     public async Task<IEnumerable<TourRoute>> GetPublicRoutesAsync()
     {
         // Only return non-private routes, or maybe all routes but mark private ones?
@@ -60,6 +65,13 @@ public class TourRouteService : ITourRouteService
     public async Task<TourRoute> CreateRouteAsync(TourRoute route)
     {
         await _unitOfWork.Repository<TourRoute>().AddAsync(route);
+        await _unitOfWork.CompleteAsync();
+        return route;
+    }
+
+    public async Task<TourRoute> UpdateRouteAsync(TourRoute route)
+    {
+        _unitOfWork.Repository<TourRoute>().Update(route);
         await _unitOfWork.CompleteAsync();
         return route;
     }

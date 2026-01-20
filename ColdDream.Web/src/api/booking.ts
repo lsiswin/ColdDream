@@ -21,6 +21,7 @@ export interface CreateBookingDto {
   contactName: string;
   contactPhone: string;
   couponId?: string;
+  butlerId?: string;
 }
 
 export const createBooking = (data: CreateBookingDto) => {

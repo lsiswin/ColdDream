@@ -110,6 +110,7 @@ const topRoutes = ref<TourRoute[]>([]);
 
 onMounted(async () => {
   try {
+    // Explicitly fetch top 3 routes by popularity/sales
     const res = await getTopRoutes(3);
     if (res.success) {
       topRoutes.value = res.data;

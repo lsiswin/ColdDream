@@ -38,6 +38,36 @@
           </div>
         </div>
 
+        <!-- Butler Selection -->
+        <div class="border-t border-gray-100 pt-6" v-if="butlers.length > 0">
+          <label class="block text-sm font-medium text-gray-700 mb-4">选择旅行管家 (可选)</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div 
+              v-for="butler in butlers" 
+              :key="butler.id"
+              @click="form.butlerId = (form.butlerId === butler.id ? '' : butler.id)"
+              :class="[
+                'relative border rounded-lg p-4 cursor-pointer transition-all flex items-center space-x-4',
+                form.butlerId === butler.id ? 'border-primary ring-1 ring-primary bg-blue-50' : 'border-gray-200 hover:border-blue-300'
+              ]"
+            >
+              <img :src="butler.avatarUrl || 'https://via.placeholder.com/64'" class="w-12 h-12 rounded-full object-cover" />
+              <div class="flex-1">
+                <div class="flex justify-between items-center">
+                  <h4 class="font-medium text-gray-900">{{ butler.name }}</h4>
+                  <span class="text-xs font-bold text-orange-500 flex items-center">
+                    {{ butler.rating }} <svg class="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  </span>
+                </div>
+                <p class="text-sm text-gray-500">服务费: ¥{{ butler.price }}</p>
+              </div>
+              <button @click.stop="openButlerModal(butler)" class="text-xs text-primary hover:underline absolute bottom-2 right-4">
+                查看详情
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Coupon Section -->
         <div class="border-t border-gray-100 pt-6">
           <label class="block text-sm font-medium text-gray-700 mb-2">优惠券</label>
@@ -56,6 +86,10 @@
             <span>行程费用</span>
             <span>¥{{ routePrice }}</span>
           </div>
+          <div v-if="selectedButlerPrice > 0" class="flex justify-between text-sm text-gray-600 mb-2">
+            <span>管家服务费</span>
+            <span>+¥{{ selectedButlerPrice }}</span>
+          </div>
           <div v-if="discountAmount > 0" class="flex justify-between text-sm text-red-500 mb-2">
             <span>优惠抵扣</span>
             <span>-¥{{ discountAmount }}</span>
@@ -73,6 +107,44 @@
         </div>
       </form>
     </div>
+
+    <!-- Butler Modal -->
+    <div v-if="showButlerModal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" @click="showButlerModal = false"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" v-if="currentButler">
+            <div class="sm:flex sm:items-start">
+              <div class="mx-auto flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 sm:mx-0 sm:h-20 sm:w-20">
+                <img :src="currentButler.avatarUrl || 'https://via.placeholder.com/80'" class="h-16 w-16 sm:h-20 sm:w-20 rounded-full object-cover" />
+              </div>
+              <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">{{ currentButler.name }}</h3>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-500 flex items-center justify-center sm:justify-start">
+                    <span class="font-bold text-orange-500 mr-2">{{ currentButler.rating }} 分</span>
+                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">{{ currentButler.tags }}</span>
+                  </p>
+                  <p class="text-sm text-gray-500 mt-2">
+                    专业资深旅行管家，为您提供全方位的行程规划与服务，让您的旅途无忧无虑。
+                  </p>
+                  <p class="text-base font-bold text-primary mt-4">服务费: ¥{{ currentButler.price }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button @click="selectButlerFromModal" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:ml-3 sm:w-auto sm:text-sm">
+              选择此管家
+            </button>
+            <button @click="showButlerModal = false" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+              关闭
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -82,6 +154,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { getRouteDetails, type TourRoute } from '@/api/routes';
 import { createBooking } from '@/api/booking';
 import { getMyCoupons, type Coupon } from '@/api/coupon';
+import { getButlersByRoute, type Butler } from '@/api/butlers';
 
 const route = useRoute();
 const router = useRouter();
@@ -89,7 +162,12 @@ const tourRouteId = route.params.id as string;
 
 const tourRoute = ref<TourRoute | null>(null);
 const coupons = ref<Coupon[]>([]);
+const butlers = ref<Butler[]>([]);
 const submitting = ref(false);
+
+// Modal state
+const showButlerModal = ref(false);
+const currentButler = ref<Butler | null>(null);
 
 const form = ref({
   tourRouteId: tourRouteId,
@@ -97,15 +175,17 @@ const form = ref({
   travelers: 1,
   contactName: '',
   contactPhone: '',
-  couponId: ''
+  couponId: '',
+  butlerId: ''
 });
 
 onMounted(async () => {
   if (tourRouteId) {
     try {
-      const [routeRes, couponRes] = await Promise.all([
+      const [routeRes, couponRes, butlerRes] = await Promise.all([
         getRouteDetails(tourRouteId),
-        getMyCoupons()
+        getMyCoupons(),
+        getButlersByRoute(tourRouteId)
       ]);
 
       if (routeRes.success) {
@@ -114,25 +194,48 @@ onMounted(async () => {
       if (couponRes.success) {
         coupons.value = couponRes.data;
       }
+      if (butlerRes.success) {
+        butlers.value = butlerRes.data;
+      }
     } catch (error) {
       console.error(error);
     }
   }
 });
 
+const openButlerModal = (butler: Butler) => {
+  currentButler.value = butler;
+  showButlerModal.value = true;
+};
+
+const selectButlerFromModal = () => {
+  if (currentButler.value) {
+    form.value.butlerId = currentButler.value.id;
+  }
+  showButlerModal.value = false;
+};
+
 const routePrice = computed(() => {
   if (!tourRoute.value) return 0;
   return tourRoute.value.price * form.value.travelers;
 });
 
+const selectedButlerPrice = computed(() => {
+  if (!form.value.butlerId) return 0;
+  const butler = butlers.value.find(b => b.id === form.value.butlerId);
+  return butler ? butler.price : 0;
+});
+
 const availableCoupons = computed(() => {
-  return coupons.value.filter(c => !c.isUsed && routePrice.value >= c.minSpend);
+  const totalBeforeDiscount = routePrice.value + selectedButlerPrice.value;
+  return coupons.value.filter(c => !c.isUsed && totalBeforeDiscount >= c.minSpend);
 });
 
 // Reset coupon if no longer valid
-watch(routePrice, (newVal) => {
+watch([routePrice, selectedButlerPrice], () => {
+  const totalBeforeDiscount = routePrice.value + selectedButlerPrice.value;
   const currentCoupon = coupons.value.find(c => c.id === form.value.couponId);
-  if (currentCoupon && newVal < currentCoupon.minSpend) {
+  if (currentCoupon && totalBeforeDiscount < currentCoupon.minSpend) {
     form.value.couponId = '';
   }
 });
@@ -144,7 +247,7 @@ const discountAmount = computed(() => {
 });
 
 const finalPrice = computed(() => {
-  return Math.max(0, routePrice.value - discountAmount.value);
+  return Math.max(0, routePrice.value + selectedButlerPrice.value - discountAmount.value);
 });
 
 const handleSubmit = async () => {
@@ -152,7 +255,8 @@ const handleSubmit = async () => {
   try {
     const payload = {
       ...form.value,
-      couponId: form.value.couponId || undefined // Send undefined if empty string
+      couponId: form.value.couponId || undefined,
+      butlerId: form.value.butlerId || undefined
     };
     const res = await createBooking(payload);
     if (res.success) {

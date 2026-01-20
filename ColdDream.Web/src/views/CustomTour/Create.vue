@@ -10,7 +10,16 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">目的地</label>
-            <input type="text" required v-model="form.destination" placeholder="想去哪里玩？" class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
+            <div class="flex space-x-2">
+              <select v-model="selectedProvince" @change="handleProvinceChange" class="block w-1/2 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                <option value="">选择省份</option>
+                <option v-for="province in provinces" :key="province" :value="province">{{ province }}</option>
+              </select>
+              <select v-model="selectedCity" class="block w-1/2 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" :disabled="!selectedProvince">
+                <option value="">选择城市</option>
+                <option v-for="city in availableCities" :key="city" :value="city">{{ city }}</option>
+              </select>
+            </div>
           </div>
 
           <div>
@@ -62,15 +71,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { createCustomTour } from '@/api/custom-tour';
+import { chinaCities } from '@/assets/china_cities';
 
 const router = useRouter();
 const submitting = ref(false);
 
+const provinces = Object.keys(chinaCities);
+const selectedProvince = ref('');
+const selectedCity = ref('');
+
+const availableCities = computed(() => {
+  return selectedProvince.value ? chinaCities[selectedProvince.value] : [];
+});
+
+const handleProvinceChange = () => {
+  selectedCity.value = '';
+};
+
 const form = ref({
-  destination: '',
   startDate: '',
   days: 3,
   peopleCount: 2,
@@ -81,9 +102,19 @@ const form = ref({
 });
 
 const handleSubmit = async () => {
+  if (!selectedProvince.value || !selectedCity.value) {
+    alert('请选择目的地省份和城市');
+    return;
+  }
+
   submitting.value = true;
   try {
-    const res = await createCustomTour(form.value);
+    const payload = {
+      ...form.value,
+      destination: `${selectedProvince.value} - ${selectedCity.value}`
+    };
+    
+    const res = await createCustomTour(payload);
     if (res.success) {
       alert('需求提交成功！我们的管家会尽快联系您。');
       router.push('/dashboard?tab=custom-tours');

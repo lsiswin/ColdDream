@@ -132,6 +132,12 @@ onMounted(async () => {
       const res = await getRouteDetails(id);
       if (res.success) {
         tourRoute.value = res.data;
+        // Mask the URL to hide the ID and show the title instead
+        if (tourRoute.value?.title) {
+          const newPath = `/tours/${encodeURIComponent(tourRoute.value.title)}`;
+          // Use replaceState to change URL without triggering a route update or page reload
+          window.history.replaceState({ ...window.history.state }, '', newPath);
+        }
       }
     } catch (error) {
       console.error(error);

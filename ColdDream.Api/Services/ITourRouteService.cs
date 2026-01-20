@@ -7,5 +7,7 @@ public interface ITourRouteService
     Task<IEnumerable<TourRoute>> GetPublicRoutesAsync();
     Task<TourRoute?> GetRouteDetailsAsync(Guid id, bool isAuthenticated);
     Task<TourRoute> CreateRouteAsync(TourRoute route);
+    Task<TourRoute> UpdateRouteAsync(TourRoute route);
     Task<IEnumerable<TourRoute>> GetTopSellingRoutesAsync(int count);
+    Task<IEnumerable<TourRoute>> GetRoutesByCreatorAsync(Guid creatorId);
 }

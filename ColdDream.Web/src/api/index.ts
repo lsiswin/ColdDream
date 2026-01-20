@@ -22,23 +22,47 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// Response Interceptor
 api.interceptors.response.use(
   (response) => {
-    const res = response.data;
-    if (res.success === false) {
-      // Handle business error
-      console.error(res.message);
-      return Promise.reject(new Error(res.message));
-    }
-    return res;
+    return response.data;
   },
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+    const authStore = useAuthStore();
+    
+    if (error.response) {
+      if (error.response.status === 401) {
+        authStore.logout();
+        // Redirect to login handled by router guard or here if router instance available
+        window.location.href = '/login';
+      } else {
+        // Global error alert for now, can be replaced with Toast
+        const message = error.response.data?.message || '请求失败，请稍后重试';
+        // Avoid alerting for 401 as we redirect
+        if (error.response.status !== 401) {
+           alert(message);
+        }
+      }
+    } else {
+      alert('网络连接异常，请检查您的网络设置');
     }
+    
     return Promise.reject(error);
   }
 );
+
+export const uploadFile = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  // Note: Assuming backend returns { url: string } or similar
+  const res = await api.post<any, { url: string }>('/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+  
+  return res.url;
+};
 
 export default api;

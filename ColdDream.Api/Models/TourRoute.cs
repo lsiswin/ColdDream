@@ -5,8 +5,14 @@ namespace ColdDream.Api.Models;
 public class TourRoute
 {
     public Guid Id { get; set; }
+
+    public Guid? CreatorId { get; set; } // Nullable for system routes, or required if all routes have owners
+
     [Required]
+    [MaxLength(200)]
     public string Title { get; set; } = string.Empty;
+
+    public string? Duration { get; set; }
     public string? Description { get; set; }
     public bool IsPrivate { get; set; }
     public decimal Price { get; set; }
@@ -17,4 +23,5 @@ public class TourRoute
     public int Sales { get; set; }
     public ICollection<Butler> Butlers { get; set; } = new List<Butler>();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; }
 }

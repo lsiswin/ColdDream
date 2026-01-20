@@ -33,6 +33,10 @@
               <span>路线费用</span>
               <span>¥{{ (booking.tourRoute?.price || 0) * booking.travelers }}</span>
             </div>
+            <div v-if="booking.butler" class="flex justify-between text-gray-600">
+              <span>管家服务费 ({{ booking.butler.name }})</span>
+              <span>¥{{ booking.butler.price }}</span>
+            </div>
             <div v-if="booking.discountAmount && booking.discountAmount > 0" class="flex justify-between text-red-500">
               <span>优惠抵扣</span>
               <span>-¥{{ booking.discountAmount }}</span>
@@ -40,6 +44,19 @@
             <div class="flex justify-between items-center text-lg font-bold border-t border-gray-200 pt-2 mt-2">
               <span>实付金额</span>
               <span class="text-primary">¥{{ booking.totalPrice }}</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Butler Info -->
+        <section v-if="booking.butler" class="border-t border-gray-100 pt-6">
+          <h3 class="text-lg font-bold text-gray-900 mb-4">旅行管家</h3>
+          <div class="flex items-center space-x-4 bg-blue-50 p-4 rounded-md border border-blue-100">
+            <img :src="booking.butler.avatarUrl || 'https://via.placeholder.com/64'" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm" />
+            <div>
+              <h4 class="font-bold text-gray-900">{{ booking.butler.name }}</h4>
+              <p class="text-sm text-gray-500 mt-1">{{ booking.butler.tags }}</p>
+              <div class="text-xs text-blue-600 mt-1 bg-white px-2 py-0.5 rounded inline-block">专属 1对1 服务</div>
             </div>
           </div>
         </section>

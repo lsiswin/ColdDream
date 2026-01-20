@@ -36,8 +36,14 @@
           :to="`/tours/${route.id}`"
           class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col group cursor-pointer"
         >
-          <div class="relative h-48">
-            <img class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" :src="route.imageUrl || 'https://via.placeholder.com/400x300'" :alt="route.title">
+          <div class="relative h-48 bg-gray-200">
+            <img 
+              :src="route.imageUrl || 'https://via.placeholder.com/400x300'" 
+              :alt="route.title"
+              loading="lazy"
+              class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-0"
+              @load="$event.target.classList.remove('opacity-0')"
+            >
             <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
               {{ route.isPrivate ? '私家团' : '跟团游' }}
             </div>
@@ -76,13 +82,13 @@ const loading = ref(true);
 const searchQuery = ref('');
 
 const filteredRoutes = computed(() => {
-  if (!searchQuery.value) return routes.value;
+  if (!searchQuery.value) return routes.value.slice(0, 20);
   const query = searchQuery.value.toLowerCase();
   return routes.value.filter(r => 
     r.title.toLowerCase().includes(query) || 
     (r.tags && r.tags.toLowerCase().includes(query)) ||
     (r.description && r.description.toLowerCase().includes(query))
-  );
+  ).slice(0, 20);
 });
 
 onMounted(async () => {

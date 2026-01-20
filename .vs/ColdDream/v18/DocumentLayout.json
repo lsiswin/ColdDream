@@ -1,12 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Cshrap\\ColdDream\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{EFCF12B4-CEA4-4977-B4B3-03E7D6FB9581}|ColdDream.Api\\ColdDream.Api.csproj|d:\\cshrap\\colddream\\colddream.api\\dtos\\bookingdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EFCF12B4-CEA4-4977-B4B3-03E7D6FB9581}|ColdDream.Api\\ColdDream.Api.csproj|solutionrelative:colddream.api\\dtos\\bookingdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 65,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -35,19 +30,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "BookingDtos.cs",
-              "DocumentMoniker": "D:\\Cshrap\\ColdDream\\ColdDream.Api\\DTOs\\BookingDtos.cs",
-              "RelativeDocumentMoniker": "ColdDream.Api\\DTOs\\BookingDtos.cs",
-              "ToolTip": "D:\\Cshrap\\ColdDream\\ColdDream.Api\\DTOs\\BookingDtos.cs",
-              "RelativeToolTip": "ColdDream.Api\\DTOs\\BookingDtos.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAUwB8AAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T06:48:52.504Z",
-              "EditorCaption": ""
             }
           ]
         },

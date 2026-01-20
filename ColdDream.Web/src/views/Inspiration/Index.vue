@@ -2,7 +2,7 @@
   <div class="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-12">
-        <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">攻略社区</h1>
+        <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">旅行灵感</h1>
         <p class="mt-4 text-lg text-gray-500">发现旅行灵感，分享你的足迹</p>
       </div>
 
@@ -18,13 +18,18 @@
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
 
-      <div v-else class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-        <div v-for="item in inspirations" :key="item.id" class="break-inside-avoid bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300 group">
-          <div class="relative">
-            <img :src="item.imageUrl" class="w-full object-cover" loading="lazy" />
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-for="item in inspirations" :key="item.id" class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300 group flex flex-col">
+          <div class="relative bg-gray-200 h-64">
+            <img 
+              :src="item.imageUrl" 
+              class="w-full h-full object-cover opacity-0 transition-opacity duration-300" 
+              loading="lazy" 
+              @load="$event.target.classList.remove('opacity-0')"
+            />
             <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity"></div>
           </div>
-          <div class="p-4">
+          <div class="p-4 flex-1 flex flex-col">
             <p class="text-gray-800 text-sm leading-relaxed mb-4 line-clamp-3">{{ item.description }}</p>
             
             <div class="flex items-center justify-between border-t border-gray-50 pt-3">
